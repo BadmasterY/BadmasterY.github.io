@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="ES10-Array.flat">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">ES10-Array.flat</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://blog.bbadtimes.com/category/contact">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-03-24</span>
+            <span class="time">11:14:14</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/es10/">#es10</a> <a class="tag" href="/tags/flat/">#flat</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p><img src="/img/js-es10.png" alt="js-es10" title="es10"><br><a id="more"></a></p>
+<p>ES10 还只是一个草案。但是除了 <strong>Object.fromEntries</strong> 之外，Chrome 的大多数功能都已经实现了，为什么不早点开始探索呢?当所有浏览器都开始支持它时，你将走在前面，这只是时间问题。</p>
+<p>虽然有关Array有两个新的特性，不过今天不讲那么多，只来谈谈 flat。</p>
+<ul>
+<li>Array.flat()</li>
+<li>Array.flatMap()</li>
+</ul>
+<h2 id="Array-flat"><a href="#Array-flat" class="headerlink" title="Array.flat()"></a>Array.flat()</h2><p>这是一个扁平化多维数组的新特性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1, [2, [3]]];</span><br><span class="line">arr.flat();         /*[1, 2, Array(1)]*/</span><br><span class="line">arr.flat().flat();  /*[1, 2, 3]*/</span><br><span class="line">arr.flat(2);        /*[1, 2, 3]*/</span><br><span class="line">arr.flat(Infinity); /*[1, 2, 3]*/</span><br></pre></td></tr></table></figure>
+<p>语法：Array.flat(n)，n 表示维度，当 n 值为 <strong>Infinity</strong> 时维度为无限大。</p>
+<p>很棒的 api，不过作为 es10 的新特性，<del>拜托！都9012年了，怎么会</del>有人关注兼容性问题。俗话说得好，搞技术的怎么能知其然，而不知其所以然呢？盘它！（谁还记得是哪位老人家说的）</p>
+<h3 id="Es5写法"><a href="#Es5写法" class="headerlink" title="Es5写法"></a>Es5写法</h3><h4 id="开始篇"><a href="#开始篇" class="headerlink" title="开始篇"></a>开始篇</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1,[2,[3]]];</span><br><span class="line"></span><br><span class="line">function flat(arr)&#123;</span><br><span class="line">  let temp = arr.toString();</span><br><span class="line">  temp = temp.split(&apos;,&apos;);</span><br><span class="line">  return(temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">flat(arr);  /*[&apos;1&apos;, &apos;2&apos;, &apos;3&apos;]*/</span><br></pre></td></tr></table></figure>
+<p>使用 toString 方法将数组转化为字符串，在使用 split 对字符串进行裁剪，获得一个拉平之后的数组。</p>
+<p>但这种方法存在缺陷，数组内的数据类型改变了。一般情况下肯定是希望将数组拉平的同时，其中的数据类型不变。</p>
+<h3 id="进阶篇"><a href="#进阶篇" class="headerlink" title="进阶篇"></a>进阶篇</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1,[2,[3]]];</span><br><span class="line">let newArr = [];</span><br><span class="line"></span><br><span class="line">function flat(arr)&#123;</span><br><span class="line">  for(let i = 0; i &lt; arr.length; i++)&#123;</span><br><span class="line">    Array.isArray(arr[i]) ? flat(arr[i]) : newArr.push(arr[i]);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">flat(arr);</span><br><span class="line"></span><br><span class="line">newArr;     /*[1, 2, 3]*/</span><br></pre></td></tr></table></figure>
+<p>这样，使用递归来拉平数组，获得的新数组内数据类型将不发生改变。</p>
+<p>好了 es5 写法就搞这么多，再来看看 es6 写法。</p>
+<h2 id="Es6写法"><a href="#Es6写法" class="headerlink" title="Es6写法"></a>Es6写法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">let arr = [1,[2,[3]]];</span><br><span class="line"></span><br><span class="line">function flat(arr)&#123;</span><br><span class="line">  while(arr.some(item =&gt; Array.isArray(item)))&#123;</span><br><span class="line">      arr = [].concat(...arr);</span><br><span class="line">  &#125;</span><br><span class="line">  return arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">flat(arr);    /*[1, 2, 3]*/</span><br></pre></td></tr></table></figure>
+<p>本质是利用递归与数组合并方法 concat 实现扁平化。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
