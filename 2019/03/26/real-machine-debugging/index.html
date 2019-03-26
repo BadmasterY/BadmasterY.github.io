@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="9102了，你还不会移动端真机调试？">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">9102了，你还不会移动端真机调试？</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://blog.bbadtimes.com/category/contact">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-03-26</span>
+            <span class="time">23:15:03</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/转载/">#转载</a> <a class="tag" href="/tags/debug/">#debug</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <blockquote><p>作者：前端小姐姐<br><a href="https://segmentfault.com/a/1190000018613578" target="_blank" rel="noopener">https://segmentfault.com/a/1190000018613578</a></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="移动端调试困难"><a href="#移动端调试困难" class="headerlink" title="移动端调试困难"></a>移动端调试困难</h2><p>很多时候，我们在进行移动端开发时，都是先在PC端使用手机模拟器进行调试，没有问题后，我们才会在手机端的浏览器进行测试，这个时候，如果没有出现问题，皆大欢喜。但是一旦出现问题，我们就很难解决，因为缺乏可视化的界面。不似在PC端，我们能直观的去改变样式，或者是进行断点调试。有时，在移动端我们不得不借助于alert来调试，但是这样的调试方法效率极其低下，很多时候，都是靠经验，或者是靠排除法。甚至，我们不得不归结为是浏览器的实现问题。</p>
+<p>那么，有什么什么方法，能够让我们调试移动端的适配的时候，像调试PC端一样直观呢？本文旨在为你提供移动端的调试方法，希望能够为你打开新的一扇门。</p>
+<p>本文会给出三种真机调试方法，你可以选择自己最喜欢的一款~</p>
+<h2 id="移动端真机调试方法"><a href="#移动端真机调试方法" class="headerlink" title="移动端真机调试方法"></a>移动端真机调试方法</h2><ol>
+<li>chrome真机调试</li>
+<li>weinre调试</li>
+<li>spy-debugger调试</li>
+</ol>
+<p>简单说明一下每一种方式的优缺点：</p>
+<p>第一种：chrome真机调试，有一个很大的局限性就是，只能调试手机端的chrome浏览器，对于UC，QQ这些浏览器均不适用，因此在调试兼容问题时，帮助不大，但是最大的优点是: 简单快捷。</p>
+<p>第二种：weinre调试方式，安装和适用不复杂，适用于全平台的调试，即任何手机的任何浏览器皆可以调试，不过需要手机和电脑在同一个网段下。</p>
+<p>第三种：spy-debugger，安装稍微复杂一点，spy-debugger集成了weinre，不过还增加了抓包工具，使用最为方便。</p>
+<p>下面我们开始具体介绍如何使用这三种调试方法。</p>
+<h3 id="1-chrome真机调试"><a href="#1-chrome真机调试" class="headerlink" title="1.chrome真机调试"></a>1.chrome真机调试</h3><p>手机端下载好chrome浏览器，使用USB连接到PC，打开手机的USB调试模式。</p>
+<p>然后在PC端打开chrome浏览器，在地址栏输入：chrome://inspect. 勾选”discovery usb device”。然后在手机端浏览网页，就可以看到如下的页面，点击inspect，进行调试(鉴于我的工作电脑是加了域的，因为并不能使用这个方式，如果有和我一样情况的童鞋，可以考虑使用另外两种调试方式)。</p>
+<p><img src="/img/debugging_1.jpg" alt="debugging"></p>
+<h3 id="2-wenire真机调试"><a href="#2-wenire真机调试" class="headerlink" title="2.wenire真机调试"></a>2.wenire真机调试</h3><p>Weinre(WebInspector Remote)是一款基于Web Inspector(Webkit)的远程调试工具，借助于网络，可以在PC上直接调试运行在移动设备上的远程页面。</p>
+<p><img src="/img/debugging_2.jpg" alt="debugging"></p>
+<p>本地服务器：可以使用http-server、tomcat等，也可以使用编译器集成的服务。</p>
+<h4 id="weinre安装"><a href="#weinre安装" class="headerlink" title="weinre安装"></a>weinre安装</h4><p>全局安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install –g weinre</span><br></pre></td></tr></table></figure>
+<p>局部安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install weinre</span><br></pre></td></tr></table></figure>
+<p>启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">weinre --httpPort 8090 --boundHost -all-</span><br></pre></td></tr></table></figure>
+<p>如果是局部安装的话，需要在前面加上 <code>node_modules/.bin/</code> 。</p>
+<p>相信前端的童鞋都会用npm包管理工具，对于这个工具，我就不展开了，如果没有安装npm的，自行安装。</p>
+<h4 id="weinew启动参数说明"><a href="#weinew启动参数说明" class="headerlink" title="weinew启动参数说明"></a>weinew启动参数说明</h4><ul>
+<li>httpPort：设置Wninre使用的端口号，默认是8080。</li>
+<li>boundHost：[hostname | Ip | -all-]: 默认是 ‘localhost’。</li>
+<li>debug [true | false]：这个选项与–verbose类似， 会输出更多的信息。默认为false。</li>
+<li>readTimeout [seconds]：Server发送信息到Target/Client的超时时间， 默认为5s。</li>
+<li>deathTimeout [seconds]：默认为3倍的readTimeout， 如果页面超过这个时间都没有任何响应， 那么就会断开连接。</li>
+</ul>
+<p>8080端口使用情况较多，所以我选择了指定8090端口。</p>
+<p>启动了weinre之后，我们在浏览器中输入localhost:8090.显示如下界面，表示已经启动成功。</p>
+<p><img src="/img/debugging_3.jpg" alt="debugging"></p>
+<p>点击”debug client user interface”，进入调试页面。</p>
+<p><img src="/img/debugging_4.jpg" alt="debugging"></p>
+<p>当前的targets中内容为空。</p>
+<p>现在，我们需要做另外一点操作，在我们要调试的页面中，增加一个脚本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=&quot;http://localhost:8090/target/target-script-min.js#anonymous&quot;&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>记住将localhost换成你的IP地址.</p>
+<p>然后，我们在本地启动一个服务器，可以是IDE集成的服务器，或者是http-server,我使用的是http-server.启动之后，我们在手机端访问要调试的网页。然后就会发现targets下面增加了记录。</p>
+<p>这时，我们就可以点击Elements进行调试。</p>
+<p><img src="/img/debugging_5.jpg" alt="debugging"></p>
+<p>修改样式时，会在手机端即时生效，并且也可以查看控制台信息，唯一一点就是，不能进行断点调试。</p>
+<p>最后，在调试结束之后，别忘记删除嵌入的script。</p>
+<p>除了这种方法之后，还介绍了在手机端保存一段Js代码，在需要调试某个页面时，点击执行JS,但是现在浏览器为了安全起见，已经不再支持此方法。默认的方法是搜索，而非执行，所以不可取。</p>
+<h3 id="3-spy-debugger真机调试"><a href="#3-spy-debugger真机调试" class="headerlink" title="3.spy-debugger真机调试"></a>3.spy-debugger真机调试</h3><p>最后，再介绍一下spy-debugger方法。用这个方法，我们不再需要自己增加和删除脚本。</p>
+<p>Spy-debugger内部集成了weinre，通过代理的方式拦截所有html自动注入weinre所需的js代码。简化了weinre需要给每个调试的页面添加js代码。spy-debugger原理是拦截所有html页面请求注入weinre所需要的js代码。让页面调试更加方便。</p>
+<p>特性：</p>
+<ol>
+<li>页面调试＋抓包</li>
+<li>操作简单</li>
+<li>支持HTTPS。</li>
+<li>spy-debugger内部集成了weinre、node-mitmproxy、AnyProxy。</li>
+<li>自动忽略原生App发起的https请求，只拦截webview发起的https请求。对使用了SSL pinning技术的原生App不造成任何影响。</li>
+<li>可以配合其它代理工具一起使用(默认使用AnyProxy)</li>
+</ol>
+<h4 id="Spydebugger安装与使用"><a href="#Spydebugger安装与使用" class="headerlink" title="Spydebugger安装与使用"></a>Spydebugger安装与使用</h4><p>全局安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g spy-debugger</span><br></pre></td></tr></table></figure>
+<p>启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spy-debugger</span><br></pre></td></tr></table></figure>
+<p>设置手机的HTTP代理：</p>
+<ul>
+<li>代理的地址为PC的IP地址，代理的端口为spy-debugger的启动端口(默认端口为：9888)默认端口是 9888。</li>
+<li>如果要指定端口： spy-debugger–p8888。</li>
+<li>Android设置步骤：设置 - WLAN - 长按选中网络 - 修改网络 - 高级 - 代理设置 - 手动。</li>
+<li>iOS设置代理步骤：设置 - 无线局域网 - 选中网络 - HTTP代理手动。</li>
+</ul>
+<p>手机安装证书(node-mitmproxy CA根证书)：</p>
+<h5 id="第一步：生成证书"><a href="#第一步：生成证书" class="headerlink" title="第一步：生成证书"></a>第一步：生成证书</h5><p>生成CA根证书，根证书生成在 /Users/XXX/node-mitmproxy/ 目录下(Mac)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spy-debugger initCA</span><br></pre></td></tr></table></figure>
+<h5 id="第二步：安装证书"><a href="#第二步：安装证书" class="headerlink" title="第二步：安装证书"></a>第二步：安装证书</h5><p>把node-mitmproxy文件夹下的 node-mitmproxy.ca.crt 传到手机上，点击安装即可。</p>
+<p>Spy-debugger启动界面，同样，在手机端刷新页面之后，targets中会有记录。</p>
+<p><img src="/img/debugging_6.jpg" alt="debugging"></p>
+<p>以我曾经做的京豆游戏的页面展示一下效果，当我们在手机上选中一个元素时，可以在电脑上看到相应的信息，这样我们就可以看出有可能是什么样式不兼容导致了UI的异常了，同样，还可以在控制台中看到JS的log信息，对于移动端调试来说非常有帮助。</p>
+<p><img src="/img/debugging_7.jpg" alt="debugging"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>chrome inspect应用场景有限。</li>
+<li>weinre安装简单，使用过程中需要增加和删除script，如果调试页面很多的情况下，不适用。</li>
+<li>spy-debugger安装略复杂，但是使用过程非常愉快。</li>
+</ol>
+<p>最后，谢谢阅读。如果本篇博文给您带来了一点启发或者是帮助，请帮忙点个Star吧：<a href="https://github.com/YvetteLau/Blog" target="_blank" rel="noopener">https://github.com/YvetteLau/Blog</a> ，非常感谢~</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
