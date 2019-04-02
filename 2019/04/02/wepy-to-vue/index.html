@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="wepy转Vue工具">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">wepy转Vue工具</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://blog.bbadtimes.com/category/contact">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-04-02</span>
+            <span class="time">22:05:25</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/转载/">#转载</a> <a class="tag" href="/tags/wepy/">#wepy</a> <a class="tag" href="/tags/vue/">#vue</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <blockquote><p>转自：大转转FE/张所勇</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="为什么需要-wepy-转-VUE"><a href="#为什么需要-wepy-转-VUE" class="headerlink" title="为什么需要 wepy 转 VUE"></a>为什么需要 wepy 转 VUE</h2><p>“转转二手”是我司用 wepy 开发的功能与 APP 相似度非常高的小程序，实现了大量的功能性页面，而新业务 H5 项目在开发过程中有时也经常需要一些公共页面和功能，但新项目又有自己的独特点，这些页面需求重新开发成本很高，但如果把小程序代码转换成 VUE 就会容易的多，因此需要这样一个转换工具。</p>
+<p><strong>本文将通过实战带你体验 HTML、css、JavaScript 的 AST 解析和转换过程</strong>。</p>
+<h2 id="AST-概览"><a href="#AST-概览" class="headerlink" title="AST 概览"></a>AST 概览</h2><p>AST 全称是叫抽象语法树，网络上有很多对 AST 的概念阐述和 demo，其实可以跟 XML 类比，目前很多流行的语言都可以通过 AST 解析成一颗语法树，也可以认为是一个 JSON，这些语言包括且不限于：CSS、HTML、JavaScript、PHP、Java、SQL 等，举一个简单的例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var a = 1;</span><br></pre></td></tr></table></figure>
+<p>这句简单的 JavaScript 代码通过 AST 将被解析成一颗“有点复杂”的语法树：</p>
+<p><img src="/img/wepy-to-vue/wepyToVue_1.png" alt="AST示意图"></p>
+<p>这句话从语法层面分析是一次变量声明和赋值，所以父节点是一个 type 为 VariableDeclaration（变量声明）的类型节点，声明的内容又包括两部分，标识符：a 和 初始值：1</p>
+<p><img src="/img/wepy-to-vue/wepyToVue_2.png" alt="AST示意图"></p>
+<p>这就是一个简单的 AST 转换，你可以通过 astexplorer( <a href="https://astexplorer.net/" target="_blank" rel="noopener">https://astexplorer.net/</a> )可视化的测试更多代码。</p>
+<h2 id="AST-有什么用"><a href="#AST-有什么用" class="headerlink" title="AST 有什么用"></a>AST 有什么用</h2><p>AST 可以将代码转换成 JSON 语法树，基于语法树可以进行代码转换、替换等很多操作，其实 AST 应用非常广泛，我们开发当中使用的 less/sass、eslint、TypeScript 等很多插件都是基于 AST 实现的。</p>
+<p>本文的需求如果用文本替换的方式也可能可以实现，不过需要用到大量正则，且出错风险很高，如果用 AST 就能轻松完成这件事。</p>
+<h2 id="AST-原理"><a href="#AST-原理" class="headerlink" title="AST 原理"></a>AST 原理</h2><p>AST 处理代码一版分为以下两个步骤：</p>
+<h3 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h3><p>词法分析会把你的代码进行大拆分，会根据你写的每一个字符进行拆分（会舍去注释、空白符等无用内容），然后把有效代码拆分成一个个 token。</p>
+<h3 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h3><p>接下来 AST 会根据特定的“规则”把这些 token 加以处理和包装，这些规则每个解析器都不同，但做的事情大体相同，包括：</p>
+<ul>
+<li>把每个 token 对应到解析器内置的语法规则中，比如上文提到的 var a = 1；这段代码将被解析成 VariableDeclaration 类型。</li>
+<li>根据代码本身的语法结构，将 tokens 组装成树状结构。</li>
+</ul>
+<h2 id="各种-AST-解析器"><a href="#各种-AST-解析器" class="headerlink" title="各种 AST 解析器"></a>各种 AST 解析器</h2><p>每种语言都有很多解析器，使用方式和生成的结果各不相同，开发者可以根据需要选择合适的解析器。</p>
+<h3 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h3><ul>
+<li>最知名的当属 babylon，因为他是 babel 的御用解析器，一般 JavaScript 的 AST 这个库比较常用</li>
+<li>acron:babylon 就是从这个库 fork 来的</li>
+</ul>
+<h3 id="HTML"><a href="#HTML" class="headerlink" title="HTML"></a>HTML</h3><ul>
+<li>htmlparser2：比较常用</li>
+<li>parse5：不太好用，还需要配合 jsdom 这个类库</li>
+</ul>
+<h3 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h3><ul>
+<li>cssom、csstree 等</li>
+<li>less/sass</li>
+</ul>
+<h3 id="XML"><a href="#XML" class="headerlink" title="XML"></a>XML</h3><ul>
+<li>XmlParser</li>
+</ul>
+<h2 id="wepy-转-VUE-工具"><a href="#wepy-转-VUE-工具" class="headerlink" title="wepy 转 VUE 工具"></a>wepy 转 VUE 工具</h2><p>接下来我们开始实战了，这个需求我们用到的技术有：</p>
+<ul>
+<li>node</li>
+<li>commander：用来写命令行相关命令调用</li>
+<li>fs-extra：fs 类库的升级版，主要提高了 node 文件操作的便利性，并且提供了 Promise 封装</li>
+<li>XmlParser：解析 XML</li>
+<li>htmlparser2：解析 HTML</li>
+<li>less：解析 css（我们所有项目统一都是 less，所以直接解析 less 就可以了）</li>
+<li>babylon：解析 JavaScript</li>
+<li>@babel/types：js 的类型库，用于查找、校验、生成相应的代码树节点</li>
+<li>@babel/traverse：方便对 JavaScript 的语法树进行各种形式的遍历</li>
+<li>@babel/template：将你处理好的语法树打印到一个固定模板里</li>
+<li>@babel/generator：生成处理好的 JavaScript 文本内容</li>
+</ul>
+<h3 id="转换目标"><a href="#转换目标" class="headerlink" title="转换目标"></a>转换目标</h3><p>我们先看一段简单的 wepy 和 VUE 的代码对比：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">/* wepy版 */</span><br><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;view class=&quot;userCard&quot;&gt;</span><br><span class="line">        &lt;view class=&quot;basic&quot;&gt;</span><br><span class="line">            &lt;view class=&quot;avatar&quot;&gt;</span><br><span class="line">                &lt;image src=&quot;&#123;&#123;info.portrait&#125;&#125;&quot;&gt;&lt;/image&gt;</span><br><span class="line">            &lt;/view&gt;</span><br><span class="line">            &lt;view class=&quot;info&quot;&gt;</span><br><span class="line">                &lt;view class=&quot;name&quot;&gt;&#123;&#123;info.nickName&#125;&#125;&lt;/view&gt;</span><br><span class="line">                &lt;view class=&quot;label&quot; wx: if=&quot;&#123;&#123;info.label&#125;&#125;&quot;&gt;</span><br><span class="line">                    &lt;view class=&quot;label-text&quot; wx: for=&quot;&#123;&#123;info.label&#125;&#125;&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/view&gt;</span><br><span class="line">                &lt;/view&gt;</span><br><span class="line">                &lt;view class=&quot;onsale&quot;&gt;在售宝贝&#123;&#123;sellingCount&#125;&#125;&lt;/view&gt;</span><br><span class="line">                &lt;view class=&quot;follow &quot; @tap=&quot;follow&quot;&gt;&#123;&#123;isFollow ? &apos;取消关注&apos; : &apos;关注&apos;&#125;&#125;&lt;/view&gt;</span><br><span class="line">            &lt;/view&gt;</span><br><span class="line">        &lt;/view&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">&lt;/ template&gt;</span><br><span class="line">&lt;style lang=&quot;less&quot; rel=&quot;stylesheet/less&quot; scoped&gt;</span><br><span class="line">    .userCard &#123;</span><br><span class="line">        position: relative;</span><br><span class="line">        background:</span><br><span class="line">            #FFFFFF;</span><br><span class="line">        box-shadow:</span><br><span class="line">            0 0 10rpx 0 rgba(162,</span><br><span class="line">            167,</span><br><span class="line">            182,</span><br><span class="line">            0.31);</span><br><span class="line">        border-radius:</span><br><span class="line">            3rpx;</span><br><span class="line">        padding:</span><br><span class="line">            20rpx;</span><br><span class="line">        position: relative;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /* css太多了，省略其他内容 */</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">import wepy from &apos;wepy&apos;export default class UserCard extends wepy.component &#123;</span><br><span class="line">  props = &#123;</span><br><span class="line">    info:&#123;</span><br><span class="line">      type:Object,</span><br><span class="line">      default:&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  data = &#123;</span><br><span class="line">    isFollow: false,</span><br><span class="line">  &#125;</span><br><span class="line">  methods = &#123;</span><br><span class="line">    async follow() &#123;</span><br><span class="line">      await someHttpRequest()  /*请求某个接口*/</span><br><span class="line">      this.isFollow = !this.isFollow</span><br><span class="line">      this.$apply()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  computed = &#123;</span><br><span class="line">    sellingCount()&#123;</span><br><span class="line">      return this.info.sellingCount || 1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  onLoad()&#123;</span><br><span class="line">    this.$log(&apos;view&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">/* vue版 */</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;userCard&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;basic&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;avatar&quot;&gt;</span><br><span class="line">        &lt;img src=&quot;info.portrait&quot;&gt;&lt;/img&gt;</span><br><span class="line">      &lt;/view&gt;</span><br><span class="line">      &lt;view class=&quot;info&quot;&gt;</span><br><span class="line">        &lt;view class=&quot;name&quot;&gt;&#123;&#123;info.nickName&#125;&#125;&lt;/view&gt;</span><br><span class="line">        &lt;view class=&quot;label&quot; v-if=&quot;info.label&quot;&gt;</span><br><span class="line">          &lt;view class=&quot;label-text&quot; v-for=&quot;(item,key) in info.label&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/view&gt;</span><br><span class="line">        &lt;/view&gt;</span><br><span class="line">        &lt;view class=&quot;onsale&quot;&gt;在售宝贝&#123;&#123;sellingCount&#125;&#125;&lt;/view&gt;</span><br><span class="line">        &lt;view class=&quot;follow &quot; @click=&quot;follow&quot;&gt;&#123;&#123;isFollow ? &apos;取消关注&apos; : &apos;关注&apos;&#125;&#125;&lt;/view&gt;</span><br><span class="line">      &lt;/view&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;style lang=&quot;less&quot; rel=&quot;stylesheet/less&quot; scoped&gt;</span><br><span class="line">.userCard &#123;</span><br><span class="line">  position:relative;</span><br><span class="line">  background: #FFFFFF;</span><br><span class="line">  box-shadow: 0 0 10rpx 0 rgba(162,167,182,0.31);</span><br><span class="line">  border-radius: 3*@px;</span><br><span class="line">  padding:20*@px;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line">/* css太多了，省略其他内容 */</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  props : &#123;</span><br><span class="line">    info:&#123;</span><br><span class="line">      type:Object,</span><br><span class="line">      default:&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  data()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      isFollow: false,</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  methods : &#123;</span><br><span class="line">    async follow() &#123;</span><br><span class="line">      await someHttpRequest()  /*请求某个接口*/</span><br><span class="line">      this.isFollow = !this.isFollow</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  computed : &#123;</span><br><span class="line">    sellingCount()&#123;</span><br><span class="line">      return this.info.sellingCount || 1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  created() &#123;</span><br><span class="line">    this.$log(&apos;view&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="转换代码实现"><a href="#转换代码实现" class="headerlink" title="转换代码实现"></a>转换代码实现</h3><p>我们先写个读取文件的入口方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">const cwdPath = process.cwd()</span><br><span class="line">const fse = require(&apos;fs-extra&apos;)</span><br><span class="line"></span><br><span class="line">const convert = async</span><br><span class="line"> </span><br><span class="line">function(filepath)&#123;</span><br><span class="line">  let fileText = await fse.readFile(filepath, &apos;utf-8&apos;);</span><br><span class="line">  fileHandle(fileText.toString(),filepath)</span><br><span class="line">&#125;</span><br><span class="line">const fileHandle = async function(fileText,filepath)&#123;</span><br><span class="line">  dosth...</span><br><span class="line">&#125;</span><br><span class="line">convert(`$&#123;cwdPath&#125;/demo.wpy`)</span><br></pre></td></tr></table></figure>
+<p>在 fileHandle 函数中，我们可以得到代码的文本内容，首先我们将对其进行 XML 解析，把 template、css、JavaScript 拆分成三部分。 有同学可能问为什么不直接正则匹配出来，因为开发者的代码可能有很多风格，比如有两部分 style，可能有很多意外情况是使用正则考虑不到的，这也是使用 AST 的意义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">/*首先需要完成Xml解析及路径定义：*/</span><br><span class="line"></span><br><span class="line">/*初始化一个Xml解析器*/</span><br><span class="line">let xmlParser = new XmlParser(),</span><br><span class="line">/*解析代码内容*/</span><br><span class="line">xmlParserObj = xmlParser.parse(fileText),</span><br><span class="line">/*正则匹配产生文件名*/</span><br><span class="line">filenameMatch = filepath.match(/([^\.|\/|\\]+)\.\w+$/),</span><br><span class="line">/*如果没有名字默认为blank*/</span><br><span class="line">filename = filenameMatch.length &gt; 1 ? filenameMatch[1] : &apos;blank&apos;,</span><br><span class="line">/*计算出模板文件存放目录dist的绝对地址*/</span><br><span class="line">filedir = utils.createDistPath(filepath),</span><br><span class="line">/*最终产出文件地址*/</span><br><span class="line">targetFilePath = `$&#123;filedir&#125;/$&#123;filename&#125;.vue`</span><br><span class="line"></span><br><span class="line">/*接下来创建目标目录*/</span><br><span class="line">try &#123;</span><br><span class="line">  fse.ensureDirSync(filedir)</span><br><span class="line">&#125;catch (e)&#123;</span><br><span class="line">  throw new Error(e)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*最后根据xml解析出来的节点类型进行不同处理*/</span><br><span class="line">for(let i = 0 ;i &lt; xmlParserObj.childNodes.length;i++)&#123;</span><br><span class="line">  let v = xmlParserObj.childNodes[i]</span><br><span class="line">  if(v.nodeName === &apos;style&apos;)&#123;</span><br><span class="line">    typesHandler.style(v,filedir,filename,targetFilePath)</span><br><span class="line">  &#125;</span><br><span class="line">  if(v.nodeName === &apos;template&apos;)&#123;</span><br><span class="line">    typesHandler.template(v,filedir,filename,targetFilePath)</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">if(v.nodeName === &apos;script&apos;)&#123;</span><br><span class="line">    typesHandler.script(v,filedir,filename,targetFilePath)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不同节点的处理逻辑，定义在一个叫做 typesHandler 的对象里面存放，接下来我们看下不同类型代码片段的处理逻辑</p>
+<p><strong>因篇幅有限，本文只列举一部分代码转换的目标，实际上要比这些更复杂</strong></p>
+<p>接下来我们对代码进行转换：</p>
+<h3 id="模板处理"><a href="#模板处理" class="headerlink" title="模板处理"></a>模板处理</h3><h4 id="转换目标-1"><a href="#转换目标-1" class="headerlink" title="转换目标"></a>转换目标</h4><ul>
+<li>模板标签转换：把 view 转换成 div，把 image 标签转换成 img</li>
+<li>模板逻辑判断：wx:if=”“ 转换成 v-if=”info.label”</li>
+<li>模板循环：wx:for=”“ 转换成 v-for=”(item,key) in info.label”</li>
+<li>事件绑定：@tap=”follow” 转换成 @click=”follow”</li>
+</ul>
+<h4 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h4><ul>
+<li>首先把拿到的目标文本解析成语法树，然后进行各项转换，最后把语法树转换成文本写入到文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">let templateContent = v.childNodes.toString(),</span><br><span class="line">/*初始化一个解析器*/</span><br><span class="line">templateParser = new TemplateParser()</span><br><span class="line"></span><br><span class="line">/*生成语法树*/</span><br><span class="line">templateParser.parse(templateContent).then((templateAst)=&gt;&#123;</span><br><span class="line">  /*进行上述目标的转换*/</span><br><span class="line">  let convertedTemplate = templateConverter(templateAst)</span><br><span class="line">  /*把语法树转成文本*/</span><br><span class="line">  templateConvertedString = templateParser.astToString(convertedTemplate)</span><br><span class="line"></span><br><span class="line">  templateConvertedString = `&lt;template&gt;\r\n$&#123;templateConvertedString&#125;\r\n&lt;/template&gt;\r\n`</span><br><span class="line">  fs.writeFile(targetFilePath,templateConvertedString, ()=&gt;&#123;</span><br><span class="line">    resolve()</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;).catch((e)=&gt;&#123;</span><br><span class="line">  reject(e)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>TemplateParser 是我封装的一个简单的模板 AST 处理类库，（因为使用了 htmlparser2 类库，该类库的调用方式有点麻烦），我们看下代码：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">const Parser = require(&apos;./Parser&apos;) </span><br><span class="line">/*基类*/</span><br><span class="line">const htmlparser = require(&apos;htmlparser2&apos;)   </span><br><span class="line">/*html的AST类库*/</span><br><span class="line">class TemplateParser extends Parser &#123;</span><br><span class="line">  constructor()&#123;</span><br><span class="line">    super()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * HTML文本转AST方法</span><br><span class="line">   * @param scriptText</span><br><span class="line">   * @returns &#123;Promise&#125;</span><br><span class="line">  */</span><br><span class="line">  parse(scriptText)&#123;</span><br><span class="line">    return new Promise((resolve, reject) =&gt; &#123;</span><br><span class="line">      /*先初始化一个domHandler*/</span><br><span class="line">      const handler = new htmlparser.DomHandler((error, dom)=&gt;&#123;</span><br><span class="line">        if (error) &#123;</span><br><span class="line">          reject(error);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">          /*在回调里拿到AST对象*/</span><br><span class="line">          resolve(dom);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      /*再初始化一个解析器*/</span><br><span class="line">      const parser = new htmlparser.Parser(handler);</span><br><span class="line">      /*再通过write方法进行解析*/</span><br><span class="line">      parser.write(scriptText);</span><br><span class="line">      parser.end();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  /**</span><br><span class="line">   * AST转文本方法</span><br><span class="line">   * @param ast</span><br><span class="line">   * @returns &#123;string&#125;</span><br><span class="line">  */</span><br><span class="line">  astToString (ast) &#123;</span><br><span class="line">    let str = &apos;&apos;;</span><br><span class="line">    ast.forEach(item =&gt; &#123;</span><br><span class="line">      if (item.type === &apos;text&apos;) &#123;</span><br><span class="line">        str += item.data;</span><br><span class="line">      &#125; else if (item.type === &apos;tag&apos;) &#123;</span><br><span class="line">        str += &apos;&lt;&apos; + item.name;</span><br><span class="line">        if (item.attribs) &#123;</span><br><span class="line">          Object.keys(item.attribs).forEach(attr =&gt; &#123;</span><br><span class="line">            str += ` $&#123;attr&#125;=&quot;$&#123;item.attribs[attr]&#125;&quot;`;</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        str += &apos;&gt;&apos;;</span><br><span class="line">        if (item.children &amp;&amp; item.children.length) &#123;</span><br><span class="line">          str += this.astToString(item.children);</span><br><span class="line">        &#125;</span><br><span class="line">        str += `&lt;/$&#123;item.name&#125;&gt;`;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    return str;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = TemplateParser</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接下来我们看下具体替换过程</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">/*html标签替换规则，可以添加更多*/</span><br><span class="line">const tagConverterConfig = &#123;</span><br><span class="line">  &apos;view&apos;:&apos;div&apos;,</span><br><span class="line">  &apos;image&apos;:&apos;img&apos;</span><br><span class="line">&#125;</span><br><span class="line">/*属性替换规则，也可以加入更多*/</span><br><span class="line">const attrConverterConfig = &#123;</span><br><span class="line">  &apos;wx:for&apos;:&#123;</span><br><span class="line">    key:&apos;v-for&apos;,</span><br><span class="line">    value:(str)=&gt;&#123;</span><br><span class="line">      return str.replace(/&#123;&#123;(.*)&#125;&#125;/,&apos;(item,key) in $1&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &apos;wx:if&apos;:&#123;</span><br><span class="line">    key:&apos;v-if&apos;,</span><br><span class="line">    value:(str)=&gt;&#123;</span><br><span class="line">      return str.replace(/&#123;&#123;(.*)&#125;&#125;/,&apos;$1&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &apos;@tap&apos;:&#123;</span><br><span class="line">    key:&apos;@click&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br><span class="line">/*替换入口方法*/</span><br><span class="line">const templateConverter = function(ast)&#123;</span><br><span class="line">  for(let i = 0;i&lt;ast.length;i++)&#123;</span><br><span class="line">    let node = ast[i]</span><br><span class="line">    /*检测到是html节点*/</span><br><span class="line">    if(node.type === &apos;tag&apos;)&#123;</span><br><span class="line">      /*进行标签替换*/</span><br><span class="line">      if(tagConverterConfig[node.name])&#123;</span><br><span class="line">        node.name = tagConverterConfig[node.name]</span><br><span class="line">      &#125;</span><br><span class="line">      /*进行属性替换*/</span><br><span class="line">      let attrs = &#123;&#125;</span><br><span class="line">      for(let k in node.attribs)&#123;</span><br><span class="line">        let target = attrConverterConfig[k]</span><br><span class="line">        if(target)&#123;</span><br><span class="line">          /*分别替换属性名和属性值*/</span><br><span class="line">          attrs[target[&apos;key&apos;]] = target[&apos;value&apos;] ? target[&apos;value&apos;](node.attribs[k]) : node.attribs[k]</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">          attrs[k] = node.attribs[k]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      node.attribs = attrs</span><br><span class="line">    &#125;</span><br><span class="line">    /*因为是树状结构，所以需要进行递归*/</span><br><span class="line">    if(node.children)&#123;</span><br><span class="line">      templateConverter(node.children)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  return ast</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="css-处理"><a href="#css-处理" class="headerlink" title="css 处理"></a>css 处理</h3><h4 id="转换目标-2"><a href="#转换目标-2" class="headerlink" title="转换目标"></a>转换目标</h4><ul>
+<li>将 image 替换为 img</li>
+<li>将单位 rpx 转换成 *@px</li>
+</ul>
+<h4 id="核心过程"><a href="#核心过程" class="headerlink" title="核心过程"></a>核心过程</h4><ul>
+<li>我们要先对拿到的 css 文本代码进行反转义处理，因为在解析 xml 过程中，css 中的特殊符号已经被转义了，这个处理逻辑很简单，只是字符串替换逻辑，因此封装在 utils 工具方法里，本文不赘述。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let styleText = utils.deEscape(v.childNodes.toString())</span><br></pre></td></tr></table></figure>
+<ul>
+<li>根据节点属性中的 type 来判断是 less 还是普通 css</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if(v.attributes)&#123;</span><br><span class="line">  /*检测css是哪种类型*/</span><br><span class="line">  for(let i in v.attributes)&#123;</span><br><span class="line">    let attr = v.attributes[i]</span><br><span class="line">    if(attr.name === &apos;lang&apos;)&#123;</span><br><span class="line">      type = attr.value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>less 内容的处理：使用 less.render()方法可以将 less 转换成 css；如果是 css，直接对 styleText 进行处理就可以了</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">less.render(styleText).then((output)=&gt;&#123;</span><br><span class="line">  /*output是css内容对象*/</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将 image 选择器换成 img，这里也需要替换更多标签，比如 text、icon、scroll-view 等，篇幅原因不赘述</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">const CSSOM = require(&apos;cssom&apos;)  </span><br><span class="line">/*css的AST解析器*/</span><br><span class="line">const replaceTagClassName = function(replacedStyleText)&#123;</span><br><span class="line">  const replaceConfig = &#123;&#125;</span><br><span class="line">  /*匹配标签选择器*/</span><br><span class="line">  const tagReg = /[^\.|#|\-|_](\b\w+\b)/g</span><br><span class="line">  /*将css文本转换为语法树*/</span><br><span class="line">  const ast = CSSOM.parse(replacedStyleText),</span><br><span class="line">              styleRules = ast.cssRules</span><br><span class="line"></span><br><span class="line">  if(styleRules &amp;&amp; styleRules.length)&#123;</span><br><span class="line">    /*找到包含tag的className*/</span><br><span class="line">    styleRules.forEach(function(item)&#123;</span><br><span class="line">    /*可能会有 view image &#123;...&#125;这多级选择器*/</span><br><span class="line">    let tags = item.selectorText.match(tagReg)</span><br><span class="line">      if(tags &amp;&amp; tags.length)&#123;</span><br><span class="line">        let newName = &apos;&apos;</span><br><span class="line">        tags = tags.map((tag)=&gt;&#123;</span><br><span class="line">          tag = tag.trim()</span><br><span class="line">            if(tag === &apos;image&apos;)tag = &apos;img&apos;</span><br><span class="line">              return tag</span><br><span class="line">            &#125;)</span><br><span class="line">        item.selectorText = tags.join(&apos; &apos;)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    /*使用toString方法可以把语法树转换为字符串*/</span><br><span class="line">    replacedStyleText = ast.toString()</span><br><span class="line">  &#125;</span><br><span class="line">  return &#123;replacedStyleText,replaceConfig&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将 rpx 替换为*@px</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">replacedStyleText = replacedStyleText.replace(/([\d\s]+)rpx/g,&apos;$1*@px&apos;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>将转换好的代码写入文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">replacedStyleText = `&lt;style scoped&gt;\r\n$&#123;replacedStyleText&#125;\r\n&lt;/style&gt;\r\n`</span><br><span class="line"></span><br><span class="line">fs.writeFile(targetFilePath,replacedStyleText,&#123;</span><br><span class="line">  flag: &apos;a&apos;</span><br><span class="line">&#125;,()=&gt;&#123;</span><br><span class="line">  resolve()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript-转换"><a href="#JavaScript-转换" class="headerlink" title="JavaScript 转换"></a>JavaScript 转换</h3><h4 id="转换目标-3"><a href="#转换目标-3" class="headerlink" title="转换目标"></a>转换目标</h4><ul>
+<li>去除 wepy 引用</li>
+<li>转换成 vue 的对象写法</li>
+<li>去除无用代码:this.\$apply()</li>
+<li>生命周期对应</li>
+</ul>
+<h4 id="核心过程-1"><a href="#核心过程-1" class="headerlink" title="核心过程"></a>核心过程</h4><p>在了解如何转换之前，我们先简单了解下 JavaScript 转换的基本流程：</p>
+<p><img src="/img/wepy-to-vue/Babel.jpg" alt="babel"></p>
+<p>借用其他作者一张图片，可以看出转换过程分为解析-&gt;转换-&gt;生成 这三个步骤。</p>
+<p>具体如下：</p>
+<ul>
+<li>先把 xml 节点通过 toString 转换成文本</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v.childNodes.toString()</span><br></pre></td></tr></table></figure>
+<ul>
+<li>再进行反转义（否则会报错的哦）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let javascriptContent = utils.deEscape(v.childNodes.toString())</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接下来初始化一个解析器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let javascriptParser = new JavascriptParser()</span><br></pre></td></tr></table></figure>
+<p>这个解析器里封装了什么呢，看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">const Parser = require(&apos;./Parser&apos;)  </span><br><span class="line">/*基类*/</span><br><span class="line">const babylon = require(&apos;babylon&apos;)  </span><br><span class="line">/*AST解析器*/</span><br><span class="line">const generate = require(&apos;@babel/generator&apos;).default</span><br><span class="line">const traverse = require(&apos;@babel/traverse&apos;).default</span><br><span class="line"></span><br><span class="line">class JavascriptParser extends Parser &#123;</span><br><span class="line">  constructor()&#123;</span><br><span class="line">    super()</span><br><span class="line">  &#125;</span><br><span class="line">  /**</span><br><span class="line">   * 解析前替换掉无用字符</span><br><span class="line">   * @param code</span><br><span class="line">   * @returns</span><br><span class="line">   */</span><br><span class="line">  beforeParse(code)&#123;</span><br><span class="line">    return code.replace(/this\.\$apply\(\);?/gm,&apos;&apos;).replace(/import\s+wepy\s+from\s+[&apos;&quot;]wepy[&apos;&quot;]/gm,&apos;&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">  /**</span><br><span class="line">   * 文本内容解析成AST</span><br><span class="line">   * @param scriptText</span><br><span class="line">   * @returns &#123;Promise&#125;</span><br><span class="line">   */</span><br><span class="line">  parse(scriptText)&#123;</span><br><span class="line">    return new Promise((resolve,reject)=&gt;&#123;</span><br><span class="line">      try &#123;</span><br><span class="line">        const scriptParsed = babylon.parse(scriptText,&#123;</span><br><span class="line">          sourceType:&apos;module&apos;,</span><br><span class="line">          plugins: [</span><br><span class="line">            /* &quot;estree&quot;, //这个插件会导致解析的结果发生变化，因此去除，这本来是acron的插件*/</span><br><span class="line">            &quot;jsx&quot;,</span><br><span class="line">            &quot;flow&quot;,</span><br><span class="line">            &quot;doExpressions&quot;,</span><br><span class="line">            &quot;objectRestSpread&quot;,</span><br><span class="line">            &quot;exportExtensions&quot;,</span><br><span class="line">            &quot;classProperties&quot;,</span><br><span class="line">            &quot;decorators&quot;,</span><br><span class="line">            &quot;objectRestSpread&quot;,</span><br><span class="line">            &quot;asyncGenerators&quot;,</span><br><span class="line">            &quot;functionBind&quot;,</span><br><span class="line">            &quot;functionSent&quot;,</span><br><span class="line">            &quot;throwExpressions&quot;,</span><br><span class="line">            &quot;templateInvalidEscapes&quot;</span><br><span class="line">          ]</span><br><span class="line">        &#125;)</span><br><span class="line">        resolve(scriptParsed)</span><br><span class="line">      &#125;catch (e)&#123;</span><br><span class="line">        reject(e)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * AST树遍历方法</span><br><span class="line">   * @param astObject</span><br><span class="line">   * @returns &#123;*&#125;</span><br><span class="line">   */</span><br><span class="line">  traverse(astObject)&#123;</span><br><span class="line">    return traverse(astObject)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  /**</span><br><span class="line">   * 模板或AST对象转文本方法</span><br><span class="line">   * @param astObject</span><br><span class="line">   * @param code</span><br><span class="line">   * @returns &#123;*&#125;</span><br><span class="line">   */</span><br><span class="line">  generate(astObject,code)&#123;</span><br><span class="line">    const newScript = generate(astObject, &#123;&#125;, code)</span><br><span class="line">    return newScript</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = JavascriptParser</span><br></pre></td></tr></table></figure>
+<p><strong>值得注意的是：babylon 的 plugins 配置有很多，如何配置取决于你的代码里面使用了哪些高级语法，具体可以参见文档或者根据报错提示处理</strong></p>
+<ul>
+<li>在解析之前可以先通过 beforeParse 方法去除掉一些无用代码（这些代码通常比较固定，直接通过字符串替换掉更方便）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javascriptContent = javascriptParser.beforeParse(javascriptContent)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>再把文本解析成 AST</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javascriptParser.parse(javascriptContent)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过 AST 遍历整个树，进行各种代码转换</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let &#123;convertedJavascript,vistors&#125; = componentConverter(javascriptAst)</span><br></pre></td></tr></table></figure>
+<p>componentConverter 是转换的方法封装，转换过程略复杂，我们先了解几个概念。</p>
+<p>假如我们拿到了 AST 对象，我们需要先对他进行遍历，如何遍历呢，这样一个复杂的 JSON 结构如果我们用循环或者递归的方式去遍历，那无疑会非常复杂，所以我们就借助了 babel 里的traverse这个工具，文档：babel-traverse( <a href="https://babeljs.io/docs/en/babel-traverse" target="_blank" rel="noopener">https://babeljs.io/docs/en/babel-traverse</a> )。</p>
+<ul>
+<li>traverse 接受两个参数：AST 对象和 vistor 对象</li>
+<li><p>vistor 就是配置遍历方式的对象</p>
+</li>
+<li><p>主要有两种：<br>– 树状遍历：主要通过在节点的进入时机 enter 和离开 exit 时机进行遍历处理，进入节点之后再判断是什么类型的节点做对应的处理<br>– 按类型遍历：traverse 帮你找到对应类型的所有节点</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/*树状*/</span><br><span class="line">const componentVistor = &#123;</span><br><span class="line">  enter(path) &#123;</span><br><span class="line">    if (path.isIdentifier(&#123; name: &quot;n&quot; &#125;)) &#123;</span><br><span class="line">      path.node.name = &quot;x&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  exit(path)&#123;</span><br><span class="line">    /*do sth*/</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/*按类型*/</span><br><span class="line">const componentVistor = &#123;</span><br><span class="line">  FunctionDeclaration(path) &#123;</span><br><span class="line">    path.node.id.name = &quot;x&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本文代码主要使用了树状遍历的方式，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">const componentVistor = &#123;</span><br><span class="line">  enter(path) &#123;</span><br><span class="line">    /*判断如果是类属性*/</span><br><span class="line">    if (t.isClassProperty(path)) &#123;</span><br><span class="line">      /*根据不同类属性进行不同处理，把wepy的类属性写法提取出来，放到VUE模板中*/</span><br><span class="line">      switch (path.node.key.name)&#123;</span><br><span class="line">        case &apos;props&apos;:</span><br><span class="line">          vistors.props.handle(path.node.value)</span><br><span class="line">          break;</span><br><span class="line">        case &apos;data&apos;:</span><br><span class="line">          vistors.data.handle(path.node.value)</span><br><span class="line">          break;</span><br><span class="line">        case &apos;events&apos;:</span><br><span class="line">          vistors.events.handle(path.node.value)</span><br><span class="line">          break;</span><br><span class="line">        case &apos;computed&apos;:</span><br><span class="line">          vistors.computed.handle(path.node.value)</span><br><span class="line">          break;</span><br><span class="line">        case &apos;components&apos;:</span><br><span class="line">          vistors.components.handle(path.node.value)</span><br><span class="line">          break;</span><br><span class="line">        case &apos;watch&apos;:</span><br><span class="line">          vistors.watch.handle(path.node.value)</span><br><span class="line">          break;</span><br><span class="line">        case &apos;methods&apos;:</span><br><span class="line">          vistors.methods.handle(path.node.value)</span><br><span class="line">          break;</span><br><span class="line">        default:</span><br><span class="line">          console.info(path.node.key.name)</span><br><span class="line">          break;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    /*判断如果是类方法*/</span><br><span class="line">    if(t.isClassMethod(path))&#123;</span><br><span class="line">      if(vistors.lifeCycle.is(path))&#123;</span><br><span class="line">        vistors.lifeCycle.handle(path.node)</span><br><span class="line">      &#125;else &#123;</span><br><span class="line">        vistors.methods.handle(path.node)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>本文的各种 vistor 主要做一个事，把各种类属性和方法收集起来，基类代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Vistor &#123;</span><br><span class="line">  constructor() &#123;</span><br><span class="line">    this.data = []</span><br><span class="line">  &#125;</span><br><span class="line">  handle(path)&#123;</span><br><span class="line">    this.save(path)</span><br><span class="line">  &#125;</span><br><span class="line">  save(path)&#123;</span><br><span class="line">    this.data.push(path)</span><br><span class="line">  &#125;</span><br><span class="line">  getData()&#123;</span><br><span class="line">    return this.data</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">module.exports = Vistor</span><br></pre></td></tr></table></figure>
+<p>这里还需要补充讲下@babel/types这个类库，它主要是提供了 JavaScript 的 AST 中各种节点类型的检测、改造、生成方法，举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/*类型检测*/</span><br><span class="line">if(t.isClassMethod(path))&#123;</span><br><span class="line">    /*如果是类方法*/</span><br><span class="line">&#125;</span><br><span class="line">/*创造一个对象节点*/</span><br><span class="line">t.objectExpression(...)</span><br></pre></td></tr></table></figure>
+<p><strong>通过上面的处理，我们已经把 wepy 里面的各种类属性和方法收集好了，接下来我们看如何生成 vue 写法的代码</strong></p>
+<ul>
+<li>把转换好的 AST 树放到预先定义好的 template 模板中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">convertedJavascript = componentTemplateBuilder(convertedJavascript,vistors)</span><br></pre></td></tr></table></figure>
+<p>看下 componentTemplateBuilder 这个方法如何定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const componentTemplateBuilder = function(ast,vistors)&#123;</span><br><span class="line">  const buildRequire = template(componentTemplate);</span><br><span class="line">  ast = buildRequire(&#123;</span><br><span class="line">    PROPS: arrayToObject(vistors.props.getData()),</span><br><span class="line">    LIFECYCLE: arrayToObject(vistors.lifeCycle.getData()),</span><br><span class="line">    DATA: arrayToObject(vistors.data.getData()),</span><br><span class="line">    METHODS: arrayToObject(vistors.methods.getData()),</span><br><span class="line">    COMPUTED: arrayToObject(vistors.computed.getData()),</span><br><span class="line">    WATCH: arrayToObject(vistors.watch.getData()),</span><br><span class="line">  &#125;);</span><br><span class="line">  return ast</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就用到了@babel/template这个类库，主要作用是可以把你的代码数据组装到一个新的模板里，模板如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const componentTemplate = </span><br><span class="line">`export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    return DATA</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  props:PROPS,</span><br><span class="line"></span><br><span class="line">  methods: METHODS,</span><br><span class="line"></span><br><span class="line">  computed: COMPUTED,</span><br><span class="line"></span><br><span class="line">  watch:WATCH,</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<p><strong>*生命周期需要进行对应关系处理，略复杂，本文不赘述</strong></p>
+<ul>
+<li>把模板转换成文本内容并写入到文件中</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let codeText =  `&lt;script&gt;\r\n$&#123;generate(convertedJavascript).code&#125;\r\n&lt;/script&gt;\r\n`</span><br><span class="line"></span><br><span class="line">fs.writeFile(targetFilePath,codeText, ()=&gt;&#123;</span><br><span class="line">  resolve()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里用到了@babel/generate类库，主要作用是把 AST 语法树生成文本格式</p>
+<p><strong>上述过程的代码实现总体流程</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">const JavascriptParser = require(&apos;./lib/parser/JavascriptParser&apos;)</span><br><span class="line"></span><br><span class="line">/*先反转义*/</span><br><span class="line">let javascriptContent = utils.deEscape(v.childNodes.toString()),</span><br><span class="line">/*初始化一个解析器*/</span><br><span class="line">javascriptParser = new JavascriptParser()</span><br><span class="line"></span><br><span class="line">/*去除无用代码*/</span><br><span class="line">javascriptContent = javascriptParser.beforeParse(javascriptContent)</span><br><span class="line">/*解析成AST*/</span><br><span class="line">javascriptParser.parse(javascriptContent).then((javascriptAst)=&gt;&#123;</span><br><span class="line">  /*进行代码转换*/</span><br><span class="line">  let &#123;convertedJavascript,vistors&#125; = componentConverter(javascriptAst)</span><br><span class="line">  /*放到预先定义好的模板中*/</span><br><span class="line">  convertedJavascript = componentTemplateBuilder(convertedJavascript,vistors)</span><br><span class="line"></span><br><span class="line">  /*生成文本并写入到文件*/</span><br><span class="line">  let codeText =  `&lt;script&gt;\r\n$&#123;generate(convertedJavascript).code&#125;\r\n&lt;/script&gt;\r\n`</span><br><span class="line"></span><br><span class="line">  fs.writeFile(targetFilePath,codeText, ()=&gt;&#123;</span><br><span class="line">    resolve()</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;).catch((e)=&gt;&#123;</span><br><span class="line">  reject(e)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>上面就是 wepy 转 VUE 工具的核心代码实现流程了</strong></p>
+<p>通过这个例子希望大家能了解到如何通过 AST 的方式进行精准的代码处理或者语法转换</p>
+<h3 id="如何做成命令行工具"><a href="#如何做成命令行工具" class="headerlink" title="如何做成命令行工具"></a>如何做成命令行工具</h3><p>既然我们已经实现了这个转换工具，那接下来我们希望给开发者提供一个命令行工具，主要有两个部分：</p>
+<h4 id="注册命令"><a href="#注册命令" class="headerlink" title="注册命令"></a>注册命令</h4><ul>
+<li>在项目的 package.json 里面配置 bin 部分</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;@zz-vc/fancy-cli&quot;,</span><br><span class="line">  &quot;bin&quot;: &#123;</span><br><span class="line">    &quot;fancy&quot;: &quot;bin/fancy&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  /*其他配置*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>写好代码后，npm publish 上去</li>
+<li>开发者安装了你的插件后就可以在命令行以fancy xxxx的形式直接调用命令了</li>
+</ul>
+<h3 id="编写命令调用代码"><a href="#编写命令调用代码" class="headerlink" title="编写命令调用代码"></a>编写命令调用代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env node</span><br><span class="line"></span><br><span class="line">process.env.NODE_PATH = __dirname + &apos;/../node_modules/&apos;</span><br><span class="line"></span><br><span class="line">const &#123; resolve &#125; = require(&apos;path&apos;)</span><br><span class="line"></span><br><span class="line">const res = command =&gt; resolve(__dirname, &apos;./commands/&apos;, command)</span><br><span class="line"></span><br><span class="line">const program = require(&apos;commander&apos;)</span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .version(require(&apos;../package&apos;).version )</span><br><span class="line"></span><br><span class="line">program</span><br><span class="line">  .usage(&apos;&lt;command&gt;&apos;)</span><br><span class="line"></span><br><span class="line">/*注册convert命令*/</span><br><span class="line">program</span><br><span class="line">  .command(&apos;convert &lt;componentName&gt;&apos;)</span><br><span class="line">  .description(&apos;convert a component,eg: fancy convert Tab.vue&apos;)</span><br><span class="line">  .alias(&apos;c&apos;)</span><br><span class="line">  .action((componentName) =&gt; &#123;</span><br><span class="line">    let fn = require(res(&apos;convert&apos;))</span><br><span class="line">    fn(componentName)</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">program.parse(process.argv)</span><br><span class="line"></span><br><span class="line">if(!program.args.length)&#123;</span><br><span class="line">  program.help()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>convert 命令对应的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const cwdPath = process.cwd()</span><br><span class="line">const convert = async</span><br><span class="line"> </span><br><span class="line">function(filepath)&#123;</span><br><span class="line">  let fileText = await fse.readFile(filepath, &apos;utf-8&apos;);</span><br><span class="line">  fileHandle(fileText.toString(),filepath)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">module.exports = function(fileName)&#123;</span><br><span class="line">  convert(`$&#123;cwdPath&#125;/$&#123;fileName&#125;`)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>fileHandle 这块的代码最开始已经讲过了，忘记的同学可以从头再看一遍，你就可以整个串起来这个工具的整体实现逻辑了</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>至此本文就讲完了如何通过 AST 写一个 wepy 转 VUE 的命令行工具，希望对你有所收获。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+

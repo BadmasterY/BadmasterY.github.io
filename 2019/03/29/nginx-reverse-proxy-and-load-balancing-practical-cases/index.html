@@ -108,7 +108,7 @@
           <!-- Date -->
           <span class="date-time info">On
             <span class="date">2019-03-29</span>
-            <span class="time">21:54:00</span>
+            <span class="time">22:05:25</span>
           </span>
           
           <!--  Categories  -->
@@ -136,7 +136,7 @@
 <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>先来看下nginx在web服务器排名上的趋势：</p>
 <p><img src="/img/nginx-practical-cases/nginx_1.jpg" alt="趋势"></p>
 <p>存在即合理，那为什么要使用nginx呢？这得看看nginx能帮我们做些什么。</p>
-<p>首先，nginx能做反向代理【关于反向代理和正向代理此处不做说明了，感兴趣的小伙伴自行谷歌】；比方说，我想在本地使用 <a href="http://www.glmapper1.com" target="_blank" rel="noopener">www.glmapper1.com</a> 的域名去访问<a href="http://www.taobao.com。那么这个时候我们就可以通过nginx去实现。" target="_blank" rel="noopener">www.taobao.com。那么这个时候我们就可以通过nginx去实现。</a></p>
+<p>首先，nginx能做反向代理【关于反向代理和正向代理此处不做说明了，感兴趣的小伙伴自行谷歌】；比方说，我想在本地使用 <a href="http://www.glmapper1.com" target="_blank" rel="noopener">www.glmapper1.com</a> 的域名去访问 <a href="http://www.taobao.com" target="_blank" rel="noopener">www.taobao.com</a> 。那么这个时候我们就可以通过nginx去实现。</p>
 <p>再者，nginx能实现负载均衡，什么是负载均衡呢？就是说应用部署在不同的服务器上，但是通过统一的域名进入，nginx则对请求进行分发，将请求分发到不同的服务器上去处理，这样就可以有效的减轻了单台服务器的压力。</p>
 <p>在上面这两种情况下，nginx服务器的作用都只是作为分发服务器，真正的内容，我们可以放在其他的服务器上，这样来，还能起到一层安全隔壁的作用，nginx作为隔离层。</p>
 <h2 id="解决跨域问题"><a href="#解决跨域问题" class="headerlink" title="解决跨域问题"></a>解决跨域问题</h2><blockquote><p>同源：URL由协议、域名、端口和路径组成，如果两个URL的协议、域名和端口相同，则表示他们同源。</p>
