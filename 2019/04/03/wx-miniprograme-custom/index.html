@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="微信小程序自定义单页、全局导航栏">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">微信小程序自定义单页、全局导航栏</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://blog.bbadtimes.com/category/contact">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-04-03</span>
+            <span class="time">20:33:02</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/转载/">#转载</a> <a class="tag" href="/tags/微信/">#微信</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <blockquote><p>作者：小白<br><a href="https://segmentfault.com/a/1190000018512099" target="_blank" rel="noopener">https://segmentfault.com/a/1190000018512099</a></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>产品说小程序返回到首页不太方便，想添加返回首页按钮，UI说导航栏能不能设置背景图片，因为那样设计挺好看的。</p>
+<p><img src="/img/wx-miniprograme-custom/wx_1.jpg" alt="示意图"></p>
+<h2 id="需求分析并制定方案"><a href="#需求分析并制定方案" class="headerlink" title="需求分析并制定方案"></a>需求分析并制定方案</h2><p>这产品和UI都提需求了，咱也不能反驳哈，所以开始调研，分析可行性方案：</p>
+<ol>
+<li>可以添加悬浮按钮</li>
+<li>自定义导航栏</li>
+</ol>
+<p>添加悬浮按钮，是看起来是比较简单哈，但是感觉不太优雅，会占据页面的空间，体验也不太好。所以想了下第二种方案，自定义导航栏既可以实现产品的需求还可以满足UI的设计美感，在顶部空白处加上返回首页的按钮，这样和返回按钮还对称（最终如图所示，顶部导航栏是个背景图片，分两块组合起来）。</p>
+<h2 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h2><h3 id="一、实现的前提"><a href="#一、实现的前提" class="headerlink" title="一、实现的前提"></a>一、实现的前提</h3><p>首先查看文档，看文档里关于自定义导航栏是怎么规定的，有哪些限制；还有小程序自定义导航栏全局配置和单页面配置的微信版本和调试库的最低支持版本。</p>
+<p>在 app.json window 增加 “navigationStyle”:”custom”，顶部导航栏就会消失，只保留右上角胶囊状的按钮，如何修改胶囊的颜色呢;胶囊体目前只支持黑色和白色两种颜色 在 app.josn window 加上 “navigationBarTextStyle”:”white/black”。</p>
+<p>还要考虑加返回按钮和返回首页的按钮，适配不同的机型。</p>
+<p>先说下两种配置方法：</p>
+<h4 id="1、全局配置navigationStyle"><a href="#1、全局配置navigationStyle" class="headerlink" title="1、全局配置navigationStyle"></a>1、全局配置navigationStyle</h4><ul>
+<li>调试基础库&gt;=1.9.0</li>
+<li>微信客户端&gt;=6.6.0</li>
+</ul>
+<p>app.json：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;usingComponents&quot;: &#123;</span><br><span class="line">    &quot;navigationBar&quot;: &quot;/components/navigationBar/navigationBar&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;window&quot;: &#123;</span><br><span class="line">    &quot;navigationStyle&quot;: &quot;custom&quot;</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、单页面配置navigationStyle"><a href="#2、单页面配置navigationStyle" class="headerlink" title="2、单页面配置navigationStyle"></a>2、单页面配置navigationStyle</h4><ul>
+<li>调试基础库&gt;=2.4.3</li>
+<li>微信客户端版本&gt;=7.0.0</li>
+</ul>
+<p>自定义的页面.json：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;window&quot;: &#123;</span><br><span class="line">    &quot;navigationStyle&quot;: &quot;default&quot;</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  &quot;navigationStyle&quot;: &quot;custom&quot;,</span><br><span class="line">  &quot;usingComponents&quot;: &#123;</span><br><span class="line">    &quot;navigationBar&quot;: &quot;/components/navigationBar/navigationBar&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两者的区别就是，全局配置放在app.json文件里，单页面配置放在自定义页面配置文件里。</p>
+<h3 id="二、实现的步骤"><a href="#二、实现的步骤" class="headerlink" title="二、实现的步骤"></a>二、实现的步骤</h3><p>以下说下几个要点：</p>
+<ol>
+<li>自定义导航栏文本，是否显示返回，是否显示返回首页，导航栏高度。</li>
+<li>statusBarHeight，用来获取手机状态栏的高度，这个需要在全局app.js中的 onLaunch，调用 wx.getSystemInfo 获取， navigationBarHeight + 默认的高度，这个是设定整个导航栏的高度。</li>
+<li>还有注意的，在写样式距离和大小时建议都用px，因小程序右边的胶囊也是用的px，不是rpx。</li>
+<li>因为自定义导航栏每个页面都要写，所以把导航栏封装了公共组件，这样只需要在每个页面引入即可。</li>
+</ol>
+<p>如下是封装的导航栏组件：</p>
+<p><strong>wxml</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class=&quot;navbar&quot; style=&quot;&#123;&#123;&apos;height: &apos; + navigationBarHeight&#125;&#125;&quot;&gt;</span><br><span class="line">  &lt;view style=&quot;&#123;&#123;&apos;height: &apos; + statusBarHeight&#125;&#125;&quot;&gt;&lt;/view&gt;</span><br><span class="line">  &lt;view class=&apos;title-container&apos;&gt;</span><br><span class="line">    &lt;view class=&apos;capsule&apos; wx:if=&quot;&#123;&#123; back || home &#125;&#125;&quot;&gt;</span><br><span class="line">      &lt;view bindtap=&apos;back&apos; wx:if=&quot;&#123;&#123;back&#125;&#125;&quot;&gt;</span><br><span class="line">        &lt;image src=&apos;/images/back.png&apos;&gt;&lt;/image&gt;         </span><br><span class="line">      &lt;/view&gt;</span><br><span class="line">      &lt;view bindtap=&apos;backHome&apos; wx:if=&quot;&#123;&#123;home&#125;&#125;&quot;&gt;</span><br><span class="line">        &lt;image src=&apos;/images/home.png&apos;&gt;&lt;/image&gt;</span><br><span class="line">      &lt;/view&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">    &lt;view class=&apos;title&apos;&gt;&#123;&#123;text&#125;&#125;&lt;/view&gt;</span><br><span class="line">  &lt;/view&gt;</span><br><span class="line">&lt;/view&gt;</span><br><span class="line">&lt;view style=&quot;&#123;&#123;&apos;height: &apos; + navigationBarHeight&#125;&#125;;background: white;&quot;&gt;&lt;/view</span><br></pre></td></tr></table></figure></p>
+<p>这里有个需注意的问题，就是一般会出现自定义导航栏，下拉页面，导航栏也随着会下拉，这种问题是因为设置 fixed 后页面元素整体上移了 navigationBarHeight，所以在此组件里设置一个空白view元素占用最上面的 navigationBarHeight 这块高度。</p>
+<p><strong>wxss</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">.navbar &#123;</span><br><span class="line">  width: 100%;</span><br><span class="line">  background-color: #1797eb;</span><br><span class="line">  position: fixed;</span><br><span class="line">  top: 0;</span><br><span class="line">  left: 0;</span><br><span class="line">  z-index: 999;</span><br><span class="line">&#125;</span><br><span class="line">.title-container &#123;</span><br><span class="line">  height: 40px;</span><br><span class="line">  display: flex;</span><br><span class="line">  align-items: center;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line">.capsule &#123;</span><br><span class="line">  margin-left: 10px;</span><br><span class="line">  height: 30px;</span><br><span class="line">  background: rgba(255, 255, 255, 0.6);</span><br><span class="line">  border: 1px solid #fff;</span><br><span class="line">  border-radius: 16px;</span><br><span class="line">  display: flex;</span><br><span class="line">  align-items: center;</span><br><span class="line">&#125;</span><br><span class="line">.capsule &gt; view &#123;</span><br><span class="line">  width: 45px;</span><br><span class="line">  height: 60%;</span><br><span class="line">  position: relative;</span><br><span class="line">.capsule &gt; view:nth-child(2) &#123;</span><br><span class="line">  border-left: 1px solid #fff;  </span><br><span class="line">&#125;</span><br><span class="line">.capsule image &#123;</span><br><span class="line">  width: 50%;</span><br><span class="line">  height: 100%;</span><br><span class="line">  position: absolute;</span><br><span class="line">  left: 50%;</span><br><span class="line">  top: 50%;</span><br><span class="line">  transform: translate(-50%,-50%);</span><br><span class="line">&#125;</span><br><span class="line">.title &#123;</span><br><span class="line">  color: white;</span><br><span class="line">  position: absolute;</span><br><span class="line">  top: 6px;</span><br><span class="line">  left: 104px;</span><br><span class="line">  right: 104px;</span><br><span class="line">  height: 30px;</span><br><span class="line">  line-height: 30px;</span><br><span class="line">  font-size: 14px;</span><br><span class="line">  text-align: center;</span><br><span class="line">  overflow: hidden;</span><br><span class="line">  text-overflow: ellipsis;</span><br><span class="line">  white-space: nowrap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>js</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">const app = getApp()</span><br><span class="line"></span><br><span class="line">Component(&#123;</span><br><span class="line"></span><br><span class="line">  properties: &#123;</span><br><span class="line">    text: &#123;</span><br><span class="line">      type: String,</span><br><span class="line">      value: &apos;Wechat&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    back: &#123;</span><br><span class="line">      type: Boolean,</span><br><span class="line">      value: false</span><br><span class="line">    &#125;,</span><br><span class="line">    home: &#123;</span><br><span class="line">      type: Boolean,</span><br><span class="line">      value: false</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    statusBarHeight: app.globalData.statusBarHeight + &apos;px&apos;,</span><br><span class="line">    navigationBarHeight: (app.globalData.statusBarHeight + 44) + &apos;px&apos;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  methods: &#123;</span><br><span class="line">    backHome: function () &#123;</span><br><span class="line">      let pages = getCurrentPages()</span><br><span class="line">      wx.navigateBack(&#123;</span><br><span class="line">        delta: pages.length</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    back: function () &#123;</span><br><span class="line">      wx.navigateBack(&#123;</span><br><span class="line">        delta: 1</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p><strong>json</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;component&quot;: true,</span><br><span class="line">  &quot;usingComponents&quot;: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最终还需要考虑下版本兼容的问题，毕竟还有一些用户，微信版本并没有更新到最新版本。</p>
+<p>首先可以在app.js里面获取下当前用户的微信版本，做下版本比较，如果小于这个版本，设置个全局变量，也可以在组件写个方法，在不同的页面打开显示不同的顶部导航栏，或者可以控制是否显示导航栏，这里就不详细说了。</p>
+<p>亲自试了下，在低于7.0版本的微信中，如果采用单页面自定义导航栏，会出现两个导航栏，这时候通过判断版本号不要再渲染自定义的导航栏组件了，在页面的配置文件里写上title名，还有相应的背景色，这样就会显示自带的导航栏了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>小程序开发是有些坑的地方，从不支持自定义导航栏，到支持全局自定义导航栏，再到现在的支持单页面配置，可以看出在慢慢完善。还有底部tabbar，可自己选择配置的太少了，虽然也支持自定义，但是发现自定义写的底部导航组件体验并不好，每次打开页面都会重新渲染底部的按钮，如果全部写成在一个页面里的tab切换，虽然按钮每次不用重新加载了，但是业务多肯定不行，写到一个单页面里东西也太多了。希望微信能够多添加或放开一些功能，让开发者更好的服务于产品，给用户更好的体验。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
