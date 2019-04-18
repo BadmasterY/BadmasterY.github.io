@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="前端开发者必备的Nginx知识">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">前端开发者必备的Nginx知识</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="http://blog.bbadtimes.com/category/contact">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2019-04-18</span>
+            <span class="time">20:40:35</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/转载/">#转载</a> <a class="tag" href="/tags/nginx/">#nginx</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <blockquote><p>作者：code秘密花园 公号 / ConardLi</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="nginx在应用程序中的作用"><a href="#nginx在应用程序中的作用" class="headerlink" title="nginx在应用程序中的作用"></a>nginx在应用程序中的作用</h2><ul>
+<li>解决跨域</li>
+<li>请求过滤</li>
+<li>配置gzip</li>
+<li>负载均衡</li>
+<li>静态资源服务器</li>
+</ul>
+<p>nginx是一个高性能的HTTP和反向代理服务器，也是一个通用的TCP/UDP代理服务器，最初由俄罗斯人Igor Sysoev编写。</p>
+<p>nginx现在几乎是众多大型网站的必用技术，大多数情况下，我们不需要亲自去配置它，但是了解它在应用程序中所担任的角色，以及如何解决这些问题是非常必要的。</p>
+<p>下面我将从nginx在企业中的真实应用来解释nginx在应用程序中起到的作用。</p>
+<p>为了便于理解，首先先来了解一下一些基础知识， nginx是一个高性能的反向代理服务器那么什么是反向代理呢？</p>
+<h2 id="正向代理与反向代理"><a href="#正向代理与反向代理" class="headerlink" title="正向代理与反向代理"></a>正向代理与反向代理</h2><p><strong>代理</strong>是在服务器和客户端之间假设的一层服务器，<strong>代理</strong>将接收客户端的请求并将它转发给服务器，然后将服务端的响应转发给客户端。</p>
+<p>不管是正向代理还是反向代理，实现的都是上面的功能。</p>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_1.jpg" alt="示意图"></p>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><p>正向代理，意思是一个位于客户端和原始服务器(origin server)之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。<br>正向代理是为我们服务的，即为客户端服务的，客户端可以根据正向代理访问到它本身无法访问到的服务器资源。</p>
+<p>正向代理对我们是透明的，对服务端是非透明的，即服务端并不知道自己收到的是来自代理的访问还是来自真实客户端的访问。</p>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。<br>反向代理是为服务端服务的，反向代理可以帮助服务器接收来自客户端的请求，帮助服务器做请求转发，负载均衡等。</p>
+<p>反向代理对服务端是透明的，对我们是非透明的，即我们并不知道自己访问的是代理服务器，而服务器知道反向代理在为他服务。</p>
+<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><h3 id="配置结构"><a href="#配置结构" class="headerlink" title="配置结构"></a>配置结构</h3><p>下面是一个nginx配置文件的基本结构：</p>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_2.jpg" alt="配置结构"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http</span><br><span class="line">&#123;</span><br><span class="line">    server</span><br><span class="line">    &#123;</span><br><span class="line">        location path</span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">        location path</span><br><span class="line">        &#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">    server</span><br><span class="line">    &#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>main:nginx的全局配置，对全局生效。</li>
+<li>events:配置影响nginx服务器或与用户的网络连接。</li>
+<li>http：可以嵌套多个server，配置代理，缓存，日志定义等绝大多数功能和第三方模块的配置。</li>
+<li>server：配置虚拟主机的相关参数，一个http中可以有多个server。</li>
+<li>location：配置请求的路由，以及各种页面的处理情况。</li>
+<li>upstream：配置后端服务器具体地址，负载均衡配置不可或缺的部分。</li>
+</ul>
+<h3 id="内置变量"><a href="#内置变量" class="headerlink" title="内置变量"></a>内置变量</h3><p>下面是 nginx一些配置中常用的内置全局变量，你可以在配置的任何位置使用它们。</p>
+<ul>
+<li><strong>$host</strong>    请求信息中的 Host，如果请求中没有 Host行，则等于设置的服务器名</li>
+<li><strong>$request_method</strong>    客户端请求类型，如 GET、 POST</li>
+<li><strong>$remote_addr</strong>    客户端的 IP地址</li>
+<li><strong>$args</strong>    请求中的参数</li>
+<li><strong>$content_length</strong>    请求头中的 Content-length字段</li>
+<li><strong>$http_user_agent</strong>    客户端agent信息</li>
+<li><strong>$http_cookie</strong>    客户端cookie信息</li>
+<li><strong>$remote_addr</strong>    客户端的IP地址</li>
+<li><strong>$remote_port</strong>    客户端的端口</li>
+<li><strong>$server_protocol</strong>    请求使用的协议，如 HTTP/1.0、·HTTP/1.1`</li>
+<li><strong>$server_addr</strong>    服务器地址</li>
+<li><strong>$server_name</strong>    服务器名称</li>
+<li><strong>$server_port</strong>    服务器的端口号</li>
+</ul>
+<h3 id="解决跨域"><a href="#解决跨域" class="headerlink" title="解决跨域"></a>解决跨域</h3><p>先追本溯源以下，跨域究竟是怎么回事。</p>
+<h3 id="跨域的定义"><a href="#跨域的定义" class="headerlink" title="跨域的定义"></a>跨域的定义</h3><p>同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的重要安全机制。通常不允许不同源间的读操作。</p>
+<h3 id="同源的定义"><a href="#同源的定义" class="headerlink" title="同源的定义"></a>同源的定义</h3><p>如果两个页面的协议，端口（如果有指定）和域名都相同，则两个页面具有相同的源。</p>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_3.jpg" alt="定义"></p>
+<h3 id="nginx解决跨域的原理"><a href="#nginx解决跨域的原理" class="headerlink" title="nginx解决跨域的原理"></a>nginx解决跨域的原理</h3><p>例如：</p>
+<ul>
+<li>前端server的域名为：fe.server.com</li>
+<li>后端服务的域名为：dev.server.com</li>
+</ul>
+<p>现在我在 fe.server.com对 dev.server.com发起请求一定会出现跨域。</p>
+<p>现在我们只需要启动一个nginx服务器，将 server_name设置为 fe.server.com,然后设置相应的location以拦截前端需要跨域的请求，最后将请求代理回 dev.server.com。如下面的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name  fe.server.com;</span><br><span class="line">        location / &#123;</span><br><span class="line">                proxy_pass dev.server.com;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样可以完美绕过浏览器的同源策略： fe.server.com访问 nginx的 fe.server.com属于同源访问，而 nginx对服务端转发的请求不会触发浏览器的同源策略。</p>
+<h2 id="请求过滤"><a href="#请求过滤" class="headerlink" title="请求过滤"></a>请求过滤</h2><p><img src="/img/nginx-knowledge-required-by-front-end/nginx_4.jpg" alt="404"></p>
+<p>根据状态码过滤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">error_page 500 501 502 503 504 506 /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        #将跟路径改编为存放html的路径。</span><br><span class="line">        root /root/static/html;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>根据URL名称过滤，精准匹配URL，不匹配的URL全部重定向到主页。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">    rewrite  ^.*$ /index.html  redirect;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据请求类型过滤。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if ( $request_method !~ ^(GET|POST|HEAD)$ ) &#123;</span><br><span class="line">        return 403;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="配置gzip"><a href="#配置gzip" class="headerlink" title="配置gzip"></a>配置gzip</h2><p><img src="/img/nginx-knowledge-required-by-front-end/nginx_5.jpg" alt="配置gzip"></p>
+<p>GZIP是规定的三种标准HTTP压缩格式之一。目前绝大多数的网站都在使用 GZIP传输 HTML、 CSS、 JavaScript 等资源文件。</p>
+<p>对于文本文件， GZip 的效果非常明显，开启后传输所需流量大约会降至 1/4~1/3。</p>
+<p>并不是每个浏览器都支持 gzip的，如何知道客户端是否支持 gzip呢，请求头中的 Accept-Encoding来标识对压缩的支持。</p>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_6.png" alt="headers"></p>
+<p>启用 gzip同时需要客户端和服务端的支持，如果客户端支持 gzip的解析，那么只要服务端能够返回 gzip的文件就可以启用 gzip了,我们可以通过 nginx的配置来让服务端支持 gzip。下面的 respone中 content-encoding:gzip，指服务端开启了 gzip的压缩方式。</p>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_7.png" alt="headers"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gzip                    on;</span><br><span class="line">gzip_http_version       1.1;</span><br><span class="line">gzip_comp_level         5;</span><br><span class="line">gzip_min_length         1000;</span><br><span class="line">gzip_types text/csv text/xml text/css text/plain text/javascript application/javascript application/x-javascript application/json application/xml;</span><br></pre></td></tr></table></figure>
+<h3 id="gzip"><a href="#gzip" class="headerlink" title="gzip"></a>gzip</h3><ul>
+<li>开启或者关闭 gzip模块</li>
+<li>默认值为 off</li>
+<li>可配置为 on/off</li>
+</ul>
+<h3 id="gziphttpversion"><a href="#gziphttpversion" class="headerlink" title="gziphttpversion"></a>gziphttpversion</h3><ul>
+<li>启用 GZip 所需的 HTTP 最低版本</li>
+<li>默认值为 HTTP/1.1</li>
+</ul>
+<p>这里为什么默认版本不是 1.0呢？</p>
+<p>HTTP 运行在 TCP 连接之上，自然也有着跟 TCP 一样的三次握手、慢启动等特性。</p>
+<p>启用持久连接情况下，服务器发出响应后让 TCP连接继续打开着。同一对客户/服务器之间的后续请求和响应可以通过这个连接发送。</p>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_8.png" alt="示意图"></p>
+<p>为了尽可能的提高 HTTP 性能，使用持久连接就显得尤为重要了。</p>
+<p>HTTP/1.1默认支持 TCP持久连接， HTTP/1.0 也可以通过显式指定 Connection:keep-alive 来启用持久连接。对于 TCP持久连接上的 HTTP 报文，客户端需要一种机制来准确判断结束位置，而在 HTTP/1.0中，这种机制只有 Content-Length。而在 HTTP/1.1中新增的 Transfer-Encoding:chunked 所对应的分块传输机制可以完美解决这类问题。</p>
+<p>nginx同样有着配置 chunked的属性 chunked_transfer_encoding，这个属性是默认开启的。</p>
+<p>Nginx在启用了 GZip的情况下，不会等文件 GZip 完成再返回响应，而是边压缩边响应，这样可以显著提高 TTFB( TimeToFirstByte，首字节时间，WEB 性能优化重要指标)。这样唯一的问题是， Nginx 开始返回响应时，它无法知道将要传输的文件最终有多大，也就是无法给出 Content-Length这个响应头部。</p>
+<p>所以，在 HTTP1.0中如果利用 Nginx启用了 GZip，是无法获得 Content-Length的，这导致HTTP1.0中开启持久链接和使用 GZip只能二选一，所以在这里 gzip_http_version默认设置为 1.1。</p>
+<h3 id="gzipcomplevel"><a href="#gzipcomplevel" class="headerlink" title="gzipcomplevel"></a>gzipcomplevel</h3><ul>
+<li>压缩级别，级别越高压缩率越大，当然压缩时间也就越长（传输快但比较消耗cpu）。</li>
+<li>默认值为 1</li>
+<li>压缩级别取值为 1-9</li>
+</ul>
+<h3 id="gzipminlength"><a href="#gzipminlength" class="headerlink" title="gzipminlength"></a>gzipminlength</h3><ul>
+<li>设置允许压缩的页面最小字节数， Content-Length小于该值的请求将不会被压缩</li>
+<li>默认值: 0</li>
+<li>当设置的值较小时，压缩后的长度可能比原文件大，建议设置 1000以上</li>
+</ul>
+<h3 id="gzip-types"><a href="#gzip-types" class="headerlink" title="gzip_types"></a>gzip_types</h3><ul>
+<li>要采用gzip压缩的文件类型( MIME类型)</li>
+<li>默认值: text/html(默认不压缩 js/ css)</li>
+</ul>
+<h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><h3 id="什么是负载均衡"><a href="#什么是负载均衡" class="headerlink" title="什么是负载均衡"></a>什么是负载均衡</h3><p><img src="/img/nginx-knowledge-required-by-front-end/nginx_9.jpg" alt="示意图"></p>
+<p>如上面的图，前面是众多的服务窗口，下面有很多用户需要服务，我们需要一个工具或策略来帮助我们将如此多的用户分配到每个窗口，来达到资源的充分利用以及更少的排队时间。</p>
+<p>把前面的服务窗口想像成我们的后端服务器，而后面终端的人则是无数个客户端正在发起请求。负载均衡就是用来帮助我们将众多的客户端请求合理的分配到各个服务器，以达到服务端资源的充分利用和更少的请求时间。</p>
+<h3 id="nginx如何实现负载均衡"><a href="#nginx如何实现负载均衡" class="headerlink" title="nginx如何实现负载均衡"></a>nginx如何实现负载均衡</h3><p>Upstream指定后端服务器地址列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream balanceServer &#123;</span><br><span class="line">    server 10.1.22.33:12345;</span><br><span class="line">    server 10.1.22.34:12345;</span><br><span class="line">    server 10.1.22.35:12345;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在server中拦截响应请求，并将请求转发到Upstream中配置的服务器列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    server_name  fe.server.com;</span><br><span class="line">    listen 80;</span><br><span class="line">    location /api &#123;</span><br><span class="line">        proxy_pass http://balanceServer;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的配置只是指定了nginx需要转发的服务端列表，并没有指定分配策略。</p>
+<h3 id="nginx实现负载均衡的策略"><a href="#nginx实现负载均衡的策略" class="headerlink" title="nginx实现负载均衡的策略"></a>nginx实现负载均衡的策略</h3><p><img src="/img/nginx-knowledge-required-by-front-end/nginx_10.jpg" alt="示意图"></p>
+<h4 id="轮询策略"><a href="#轮询策略" class="headerlink" title="轮询策略"></a>轮询策略</h4><p>默认情况下采用的策略，将所有客户端请求轮询分配给服务端。这种策略是可以正常工作的，但是如果其中某一台服务器压力太大，出现延迟，会影响所有分配在这台服务器下的用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream balanceServer &#123;</span><br><span class="line">    server 10.1.22.33:12345;</span><br><span class="line">    server 10.1.22.34:12345;</span><br><span class="line">    server 10.1.22.35:12345;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_11.jpg" alt="示意图"></p>
+<h4 id="最小连接数策略"><a href="#最小连接数策略" class="headerlink" title="最小连接数策略"></a>最小连接数策略</h4><p>将请求优先分配给压力较小的服务器，它可以平衡每个队列的长度，并避免向压力大的服务器添加更多的请求。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream balanceServer &#123;</span><br><span class="line">    least_conn;</span><br><span class="line">    server 10.1.22.33:12345;</span><br><span class="line">    server 10.1.22.34:12345;</span><br><span class="line">    server 10.1.22.35:12345;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/nginx-knowledge-required-by-front-end/nginx_12.jpg" alt="示意图"></p>
+<h4 id="最快响应时间策略"><a href="#最快响应时间策略" class="headerlink" title="最快响应时间策略"></a>最快响应时间策略</h4><p>依赖于NGINX Plus，优先分配给响应时间最短的服务器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream balanceServer &#123;</span><br><span class="line">    fair;</span><br><span class="line">    server 10.1.22.33:12345;</span><br><span class="line">    server 10.1.22.34:12345;</span><br><span class="line">    server 10.1.22.35:12345;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="客户端ip绑定"><a href="#客户端ip绑定" class="headerlink" title="客户端ip绑定"></a>客户端ip绑定</h4><p>来自同一个ip的请求永远只分配一台服务器，有效解决了动态网页存在的session共享问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream balanceServer &#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 10.1.22.33:12345;</span><br><span class="line">    server 10.1.22.34:12345;</span><br><span class="line">    server 10.1.22.35:12345;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="静态资源服务器"><a href="#静态资源服务器" class="headerlink" title="静态资源服务器"></a>静态资源服务器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~* \.(png|gif|jpg|jpeg)$ &#123;</span><br><span class="line">    root    /root/static/;</span><br><span class="line">    autoindex on;</span><br><span class="line">    access_log  off;</span><br><span class="line">    expires     10h;# 设置过期时间为10小时</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>匹配以 png|gif|jpg|jpeg为结尾的请求，并将请求转发到本地路径， root中指定的路径即nginx本地路径。同时也可以进行一些缓存的设置。</p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
