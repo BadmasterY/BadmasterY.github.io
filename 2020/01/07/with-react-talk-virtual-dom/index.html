@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="从 React 历史的长河里聊虚拟 DOM 及其价值">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">从 React 历史的长河里聊虚拟 DOM 及其价值</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/me">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2020-01-07</span>
+            <span class="time">00:04:08</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/转载/">#转载</a> <a class="tag" href="/tags/React/">#React</a> <a class="tag" href="/tags/Virtual-DOM/">#Virtual DOM</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>最近我发现很多面试题里都有 “如何理解虚拟 DOM” 这个题，这个题，我觉得这个题应该没有想象中那么好答，因为很多人没有真正理解虚拟 DOM 它的价值所在，我这篇从虚拟 DOM 的诞生过程来引出它的价值以及历史地位，帮助你深入的理解它。</p>
+<a id="more"></a>
+<h2 id="什么是虚拟-DOM"><a href="#什么是虚拟-DOM" class="headerlink" title="什么是虚拟 DOM"></a>什么是虚拟 DOM</h2><p><strong>本质上是 JavaScript 对象，这个对象就是更加轻量级的对 DOM 描述。</strong></p>
+<p>对，就这么简单！</p>
+<p>就是一个复杂一点的对象而已，没什么好说的，重点是为什么要有这个东西，遗迹有了这个描述有什么好处才是我们今天要介绍的内容。</p>
+<h2 id="为什么要有虚拟-DOM"><a href="#为什么要有虚拟-DOM" class="headerlink" title="为什么要有虚拟 DOM"></a>为什么要有虚拟 DOM</h2><p>再谈为什么要用虚拟 DOM 之前，先来聊一聊 <code>React</code> 是怎么诞生的，毕竟在了解历史背景，再去思考他的诞生，就知道是必然会出现的。</p>
+<p>再查了很多关于 <code>React</code> 的历史相关的文章，这篇文章我感觉比较值得令我信服：<code>React 是怎样炼成的</code>。</p>
+<p>众所周知，<code>Facebook</code> 是 <code>PHP</code> 大户，所以 <code>React</code> 最开始的灵感就来至于 <code>PHP</code>。</p>
+<h3 id="字符串拼接时代-2004"><a href="#字符串拼接时代-2004" class="headerlink" title="字符串拼接时代 - 2004"></a>字符串拼接时代 - 2004</h3><p>在 2004 年这个时候，大家都还在用 <code>PHP</code> 的字符串拼接来开发网站：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$str = <span class="string">'&lt;ul&gt;'</span>;</span><br><span class="line"><span class="keyword">foreach</span> ($talks <span class="keyword">as</span> $talk) &#123;</span><br><span class="line">  $str += <span class="string">'&lt;li&gt;'</span> . $talk-&gt;name . <span class="string">'&lt;/li&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line">$str += <span class="string">'&lt;/ul&gt;'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>这种方式代码写出来不好看不说，还容易造成 <code>XSS</code> 等安全问题。</p>
+<p>应对方法是对用户的任何输入都进行转义（<code>Escape</code>）。但是如果对字符串进行多次转义，那么反转义的次数也必须是相同的，否则会无法得到原内容。如果又不小心把 <code>HTML</code> 标签（<code>Markup</code>）给转义了，那么 <code>HTML</code> 标签会直接显示给用户，从而导致很差的用户体验。</p>
+<h3 id="XHP-时代-2010"><a href="#XHP-时代-2010" class="headerlink" title="XHP 时代 - 2010"></a>XHP 时代 - 2010</h3><p>到了 2010 年，为了更加高效的编码，同时也避免转义 <code>HTML</code> 标签的错误，<code>Facebook</code> 开发了 <code>XHP</code> 。<code>XHP</code> 是对 <code>PHP</code> 的语法拓展，它允许开发者直接在 <code>PHP</code> 中使用 <code>HTML</code> 标签，而不再使用字符串。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$content = &lt;ul /&gt;;</span><br><span class="line">foreach ($talks as $talk) &#123;</span><br><span class="line">  $content-&gt;appendChild(&lt;li&gt;&#123;$talk-&gt;name&#125;&lt;/li&gt;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样的话，所有的 <code>HTML</code> 标签都使用不同于 <code>PHP</code> 的语法，我们可以轻易的分辨哪些需要转义哪些不需要转义。</p>
+<p>不久的后来，<code>Facebook</code> 的工程师又发现他们还可以创建自定义标签，而且通过组合自定义标签有助于构建大型应用。</p>
+<h3 id="JSX-2013"><a href="#JSX-2013" class="headerlink" title="JSX - 2013"></a>JSX - 2013</h3><p>到了 2013 年，前端工程师 <code>Jordan Walke</code> 向他的经理提出了一个大胆的想法：把 <code>XHP</code> 的拓展功能迁移到 <code>JS</code> 中。首要任务是需要一个拓展来让 <code>JS</code> 支持 <code>XML</code> 语法，该拓展称为 <code>JSX</code>。因为当时由于 <code>Node.js</code> 在 <code>Facebook</code> 已经有很多实践，所以很快就实现了 <code>JSX</code>。</p>
+<blockquote>
+<p>可以猜想一下为什么要迁移到 <code>js</code> 中，我猜想应该是前后端分离导致的。</p>
+</blockquote>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> content = (</span><br><span class="line">  &lt;TalkList&gt;</span><br><span class="line">    &#123; talks.map(<span class="function"><span class="params">talk</span> =&gt;</span> &lt;Talk talk=&#123;talk&#125; /&gt;)&#125;</span><br><span class="line">  &lt;<span class="regexp">/TalkList&gt;</span></span><br><span class="line"><span class="regexp">);</span></span><br></pre></td></tr></table></figure>
+<h3 id="React"><a href="#React" class="headerlink" title="React"></a>React</h3><p>在这个时候，就有另外一个很棘手的问题，那就是在进行更新的时候，需要去操作 <code>DOM</code>，传统 <code>DOM API</code> 细节太多，操作复杂，所以就很容易出现 <code>Bug</code>，而且代码难以维护。</p>
+<p>然后就想到了 <code>PHP</code> 时代的更新机制，每当有数据改变时，只需要跳到一个由 <code>PHP</code> 全新渲染的新页面即可。</p>
+<p>从开发者的角度来看的话，这种方式开发应用是非常简单的，因为它不需要担心变更，且界面上用户数据改变时所有内容都是同步的。</p>
+<p>为此 <code>React</code> 提出了一个新的思想，即始终整体“刷新”页面</p>
+<p>当发生前后状态变化时，<code>React</code> 会自动更新 <code>UI</code>，让我们从复杂的 <code>UI</code> 操作中解放出来，使我们只需关于状态以及最终 <code>UI</code> 长什么样。</p>
+<p>下面看看局部刷新和整体刷新的区别。</p>
+<ul>
+<li>局部刷新：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 下面是伪代码</span><br><span class="line">var ul = find(ul) // 先找到 ul</span><br><span class="line">ul.append(`&lt;li&gt;$&#123;message3&#125;&lt;/li&gt;`) //然后再将message3插到最后</span><br><span class="line"></span><br><span class="line">// 想想如果是不插到最后一个，而是插到中间的第n个</span><br><span class="line">var ul = find(ul) // 先找到 ul</span><br><span class="line">var preli = find(li(n-1)) // 再找到 n-1 的一个 li</span><br><span class="line">preli.next(`&lt;li&gt;$&#123;message3&#125;&lt;/li&gt;`) // 再插入到 n-1 个的后面</span><br></pre></td></tr></table></figure>
+<ul>
+<li>整体刷新：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UI = f(messages) // 整体刷新 3 条消息，只需要调用 f 函数</span><br><span class="line"></span><br><span class="line">// 这个是在初始渲染的时候就定义好的，更新的时候不用去管</span><br><span class="line">function f(messages) &#123;</span><br><span class="line">	return&lt;ul&gt;</span><br><span class="line">		&#123;messages.map(message =&gt; &lt;li&gt;&#123; message &#125;&lt;/li&gt;)&#125;</span><br><span class="line">	&lt;/ul&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这个时候，我<strong>只需要关系我的状态（数据是什么），以及 <code>UI</code> 长什么样（布局），不再需要关系操作细节。</strong></p>
+<p>这种方式虽然简单粗暴，但是很明显的缺点，<strong>就是很慢</strong>。</p>
+<p>另外还有一个问题就是这样无法包含节点的状态。比如它会失去当前聚焦的元素和光标，以及文本选择和页面滚动位置，这些都是页面的当前状态。</p>
+<h2 id="Diff"><a href="#Diff" class="headerlink" title="Diff"></a>Diff</h2><p>为了解决上面说的问题，对于没有改变的 <code>DOM</code> 节点，让它保持原样不动，仅仅创建并替换变更过的 <code>DOM</code> 节点。这种方式实现了 <code>DOM</code> 节点复用（<code>Reuse</code>）。</p>
+<p>至此，只要能够识别出哪些节点改变了，那么就可以实现对 <code>DOM</code> 的更新。于是问题就转化为如何比对两个 <code>DOM</code> 的差异。</p>
+<p>说道对比差异，可能很容易想到版本控制(<code>git</code>)。</p>
+<p><code>DOM</code> 是树形结构，所以 <code>diff</code> 算法必须是针对树形结构的。目前已知的完整树形结构 <code>diff</code> 算法复杂度为 <code>O(n^3)</code> 。</p>
+<blockquote>
+<p><a href="https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf" target="_blank" rel="noopener">完整的 Tree diff 实现算法</a>。</p>
+</blockquote>
+<p>但是时间复杂度 <code>O(n^3)</code> 太高了，所以 <code>Facebook</code> 工程师考虑到组件的特殊情况，然后将复杂度降低到了 <code>O(n)</code>。</p>
+<blockquote>
+<p>附：详细的 diff 理解：<a href="https://zhuanlan.zhihu.com/p/20346379" target="_blank" rel="noopener">不可思议的 react diff</a> 。</p>
+</blockquote>
+<h3 id="Virtual-DOM"><a href="#Virtual-DOM" class="headerlink" title="Virtual DOM"></a>Virtual DOM</h3><p>前面说到，<code>React</code> 其实实现了对 <code>DOM</code> 节点的版本控制。</p>
+<p>做过 <code>JS</code> 应用优化的人可能都知道，<code>DOM</code> 是复杂的，对它的操作（尤其是查询和创建）是非常慢非常耗费资源的。看下面的例子，仅创建一个空白的 <code>div</code>，其实例属性就达到 <code>251</code> 个。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Chrome v79</span></span><br><span class="line"><span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line"><span class="keyword">let</span> m = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> k <span class="keyword">in</span> div) &#123;</span><br><span class="line">  m++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(m); <span class="comment">// 251</span></span><br></pre></td></tr></table></figure></p>
+<p>对于 <code>DOM</code> 这么多属性，其实大部分属性对于做 <code>Diff</code> 是没有任何用处的，所以如果用更轻量级的 <code>JS</code> 对象来代替复杂的 <code>DOM</code> 节点，然后把对 <code>DOM</code> 的 <code>diff</code> 操作转移到 <code>JS</code> 对象，就可以避免大量对 <code>DOM</code> 的查询操作。这个更轻量级的 <code>JS</code> 对象就称为 <code>Virtual DOM</code> 。</p>
+<p>那么现在的过程就是这样：</p>
+<ul>
+<li>维护一个使用 <code>JS</code> 对象表示的 <code>Virtual DOM</code>，与真实 <code>DOM</code> 一一对应</li>
+<li>对前后两个 <code>Virtual DOM</code> 做 <code>diff</code> ，生成变更（<code>Mutation</code>）</li>
+<li>把变更应用于真实 <code>DOM</code>，生成最新的真实 <code>DOM</code></li>
+</ul>
+<p>可以看出，因为要把变更应用到真实 <code>DOM</code> 上，所以还是避免不了要直接操作 <code>DOM</code> ，但是 <code>React</code> 的 <code>diff</code> 算法会把 <code>DOM</code> 改动次数降到最低。</p>
+<p>剩下的历史就不谈了，已经引出这篇文章的重点：虚拟 <code>DOM</code>。详细的历史可见：<a href="https://segmentfault.com/a/1190000013365426" target="_blank" rel="noopener">React 是怎样炼成的</a>，文中历史部分内容很多摘抄与此。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>传统前端的编程方式是命令式的，直接操纵 <code>DOM</code>，告诉浏览器该怎么干。这样的问题就是，大量的代码被用于操作 <code>DOM</code> 元素，且代码可读性差，可维护性低。</p>
+<p><code>React</code> 的出现，将命令式变成了声明式，摒弃了直接操作 <code>DOM</code> 的细节，只关注数据的变动，<code>DOM</code> 操作由框架来完成，从而大幅度提升了代码的可读性和可维护性。</p>
+<p>在初期我们可以看到，数据的变动导致整个页面的刷新，这种效率很低，因为可能是局部的数据变化，但是要刷新整个页面，造成了不必要的开销。</p>
+<p>所以就有了 <code>Diff</code> 过程，将数据变动前后的 <code>DOM</code> 结构先进行比较，找出两者的不同处，然后再对不同之处进行更新渲染。</p>
+<p>但是由于整个 <code>DOM</code> 结构又太大，所以采用了更轻量级的对 <code>DOM</code> 的描述—虚拟 <code>DOM</code>。</p>
+<p>不过需要注意的是，虚拟 <code>DOM</code> 和 <code>Diff</code> 算法的出现是为了解决由命令式编程转变为声明式编程、数据驱动后所带来的性能问题的。换句话说，直接操作 <code>DOM</code> 的性能并不会低于虚拟 <code>DOM</code> 和 <code>Diff</code> 算法，甚至还会优于。</p>
+<p>这么说的原因是因为 <code>Diff</code> 算法的比较过程，比较是为了找出不同从而有的放矢的更新页面。但是比较也是要消耗性能的。而直接操作 <code>DOM</code> 就是有的放矢，我们知道该更新什么不该更新什么，所以不需要有比较的过程。所以直接操作 <code>DOM</code> 效率可能更高。</p>
+<p><code>React</code> 厉害的地方并不是说它比 <code>DOM</code> 快，而是说不管你数据怎么变化，我都可以以最小的代价来进行更新 <code>DOM</code>。方法就是我在内存里面用新的数据刷新一个虚拟 <code>DOM</code> 树，然后新旧 <code>DOM</code> 进行比较，找出差异，再更新到 <code>DOM</code> 树上。</p>
+<p>框架的意义在于为你掩盖底层的 <code>DOM</code> 操作，让你用更声明式的方式来描述你的目的，从而让你的代码更容易维护。没有任何框架可以比纯手动的优化 <code>DOM</code> 操作更快，因为框架的 <code>DOM</code> 操作层需要应对任何上层 <code>API</code> 可能产生的操作，它的实现必须是普适的。</p>
+<p>如果你想了解更多的虚拟 <code>DOM</code> 与性能的关系，请看下面公众号里面的两篇文章和那个知乎话题，会让你对虚拟 <code>DOM</code> 又更深层次的理解。</p>
+<ul>
+<li>别再说虚拟 DOM 快了，要被打脸的</li>
+<li>深入理解虚拟 DOM，它真的不快</li>
+<li><a href="https://www.zhihu.com/question/31809713" target="_blank" rel="noopener">网上都说操作真实 DOM 慢，但测试结果却比 React 更快，为什么</a></li>
+</ul>
+<blockquote>
+<p>另外再提一个点，很多人会把 <code>Diff</code> 、数据更新、提升性能等概念绑定起来，但是你想想这个问题：<code>React</code> 由于只触发更新,而不能知道精确变化的数据,所以需要 <code>diff</code> 来找出差异然后 <code>patch</code> 差异队列。<code>Vue</code> 采用数据劫持的手段可以精准拿到变化的数据,为什么还要用虚拟 <code>DOM</code>？</p>
+</blockquote>
+<h2 id="虚拟-DOM-的作用"><a href="#虚拟-DOM-的作用" class="headerlink" title="虚拟 DOM 的作用"></a>虚拟 DOM 的作用</h2><p>要想回答上面那个问题，真的不要仅仅以为虚拟 <code>DOM</code> 或者 <code>React</code> 是来解决性能问题的，好处可还有很多呢。下面我总结了一些虚拟 <code>DOM</code> 好作用。</p>
+<ul>
+<li><code>Virtual DOM</code> 在牺牲(<strong>牺牲很关键</strong>)部分性能的前提下，增加了可维护性，这也是很多框架的通性。</li>
+<li>实现了对 <code>DOM</code> 的集中化操作，在数据改变时先对虚拟 <code>DOM</code> 进行修改，再反映到真实的 <code>DOM</code> 中，用最小的- 代价来更新 <code>DOM</code>，提高效率(提升效率要想想是跟哪个阶段比提升了效率，别只记住了这一条)。</li>
+<li>打开了函数式 <code>UI</code> 编程的大门。</li>
+<li>可以渲染到 <code>DOM</code> 以外的端，使得框架跨平台，比如 <code>ReactNative</code>，<code>React VR</code> 等。</li>
+<li>可以更好的实现 <code>SSR</code>，同构渲染等。这条其实是跟上面一条差不多的。</li>
+<li>组件的高度抽象化。</li>
+</ul>
+<p>既然虚拟 DOM 有这么多作用，那么上面的问题，<code>Vue</code> 采用虚拟 DOM 的原因是什么呢？</p>
+<blockquote>
+<p><code>Vue 2.0</code> 引入 <code>vdom</code> 的主要原因是 <code>vdom</code> 把渲染过程抽象化了，从而使得组件的抽象能力也得到提升，并且可以适配 <code>DOM</code> 以外的渲染目标。来自尤大文章：<a href="https://zhuanlan.zhihu.com/p/23752826" target="_blank" rel="noopener">Vue 的理念问题</a>。</p>
+</blockquote>
+<h2 id="虚拟-DOM-的缺点"><a href="#虚拟-DOM-的缺点" class="headerlink" title="虚拟 DOM 的缺点"></a>虚拟 DOM 的缺点</h2><ul>
+<li>首次渲染大量 <code>DOM</code> 时，由于多了一层虚拟 <code>DOM</code> 的计算，会比 <code>innerHTML</code> 插入慢。</li>
+<li>虚拟 <code>DOM</code> 需要在内存中的维护一份 <code>DOM</code> 的副本(与上面一条其实也差不多，上面一条是从速度上，这条是空间上)。</li>
+<li>如果虚拟 <code>DOM</code> 大量更改，这是合适的。但是单一的，频繁的更新的话，虚拟 <code>DOM</code> 将会花费更多的时间处理计算的工作。所以，如果你有一个 <code>DOM</code> 节点相对较少页面，用虚拟 <code>DOM</code>，它实际上有可能会更慢。但对于大多数单页面应用，这应该都会更快。</li>
+</ul>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>本文在介绍虚拟 DOM 并没有像其他文章一样去解释它的实现以及相关的 <code>Diff</code> 算法，关于 <code>Diff</code> 算法可以看这篇 <code>虚拟 DOM 到底是什么？</code>文中介绍了很多库的 <code>diff</code> 算法，可见其实 <code>React</code> 的 <code>diff</code> 算法并不算太快。</p>
+<p>而是通过历史来得出他的价值体现，从历史怎么看大牛们是怎么一步一步的去解决问题，从历史中看为什么别人能做出这么伟大的东西，而我们不能？</p>
+<p>每个伟大的产品都会有非常多的背景支持，都是一步一步发展而来的。</p>
+<p>另外洗清了一个错误观念：<strong>很多人认为虚拟 DOM 最大的优势是 <code>diff</code> 算法，减少 <code>JavaScript</code> 操作真实 <code>DOM</code> 的带来的性能消耗</strong>。</p>
+<p>虽然这一个虚拟 DOM 带来的一个优势，但并不是全部。虚拟 <code>DOM</code> 最大的优势在于抽象了原本的渲染过程，实现了跨平台的能力，而不仅仅局限于浏览器的 <code>DOM</code>，可以是安卓和 <code>IOS</code> 的原生组件，可以是近期很火热的小程序，也可以是各种 <code>GUI</code>。</p>
+<p>最后希望大家多思考，跟随者浪潮站在浪潮之巅。</p>
+<p><a href="https://blog.csdn.net/hjc256/article/details/97135687" target="_blank" rel="noopener">虚拟 DOM 为何出现遗迹性能问题</a></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
