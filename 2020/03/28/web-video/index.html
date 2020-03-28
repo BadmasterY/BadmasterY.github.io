@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="Web 视频播放前前后后那些事">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">Web 视频播放前前后后那些事</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/me">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2020-03-28</span>
+            <span class="time">22:21:46</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/转载/">#转载</a> <a class="tag" href="/tags/video/">#video</a> <a class="tag" href="/tags/H5/">#H5</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <blockquote>
+<p>转自: <a href="https://www.jackpu.com/yi-web-shi-pin-bo-fang-qian-qian-hou-hou/" target="_blank" rel="noopener">https://www.jackpu.com/yi-web-shi-pin-bo-fang-qian-qian-hou-hou/</a></p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<p>注意：本文是JavaScript视频流的介绍，主要针对Web开发人员。这里的大部分示例都使用HTML和现代JavaScript（ES6）。如果您对它们还不够熟悉，那么您可能会发现很难继续学习，尤其是代码示例。</p>
+</blockquote>
+<h3 id="原生视频-API"><a href="#原生视频-API" class="headerlink" title="原生视频 API"></a>原生视频 API</h3><p>从2000年代初期到后期，网络上的视频播放主要依靠Flash插件。</p>
+<p><img src="/img/web-video/1.jpg" alt="警告用户安装Flash插件"></p>
+<p>这是因为当时没有其他方法可以在浏览器上流式传输视频。作为用户，您可以选择安装Flash或Silverlight之类的第三方插件，还是根本无法播放任何视频。</p>
+<p>为了填补这个空白，WHATWG 开始研究 HTML 标准的新版本，其中包括本地的视频和音频播放。苹果公司在其产品上禁用 Flash 后，这一趋势更加明显。而该标准后面成为现在的 HTML5 的标准。</p>
+<p>因此，HTML5除其他新的标签外，将 <code>&lt;video&gt;</code> 标签带到当前 Web。</p>
+<p>这个新标签允许您直接从HTML链接到视频，就像标签对图像所做的一样。</p>
+<p>但是从媒体网站的角度来看，使用简单的类似于 img 的标记似乎不足以替代我们的优质Flash：</p>
+<ul>
+<li>我们可能想即时切换多种视频质量（例如YouTube）以避免缓冲问题</li>
+<li>直播是另一个用例，看起来很难实现</li>
+<li>像Netflix一样，在内容流式传输时根据用户的喜好更新内容的音频语言又如何呢？</li>
+</ul>
+<p>值得庆幸的是，由于HTML5规范带来的好处，所有这些问题都可以在大多数浏览器上以本地方式解决。本文将详细介绍当今的技术是如何做到的。</p>
+<h3 id="Video-标签"><a href="#Video-标签" class="headerlink" title="Video 标签"></a>Video 标签</h3><p>如前文所述，在HTML5中，链接到页面中的视频非常简单。您只需在页面中添加具有很少属性的视频标签即可。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span></span><br><span class="line">        My Video</span><br><span class="line">    <span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">video</span> <span class="attr">src</span>=<span class="string">"some_video.mp4"</span> <span class="attr">width</span>=<span class="string">"1280px"</span> <span class="attr">height</span>=<span class="string">"720px"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>HTML 将允许您的页面直接在支持相应编解码器的任何浏览器上播放some_video.mp4。</p>
+<p>类似像这样：<br><img src="/img/web-video/2.png" alt="视频"></p>
+<p>HTML5 视频标签还提供了各种API，例如播放，暂停，搜索或更改视频播放的速度。</p>
+<p>这些API可通过JavaScript直接访问：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 暂停视频</span></span><br><span class="line">myVideo.pause()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 时间位置设置为 10s</span></span><br><span class="line">myVideo.currentTime = <span class="number">10</span></span><br><span class="line">;</span><br></pre></td></tr></table></figure></p>
+<p>但是，我们今天在网络上看到的大多数视频显示的行为比上面说的的行为复杂得多。例如，在视频质量和直播流之间切换将会非常麻烦。<br><img src="/img/web-video/3.png" alt="复杂情况"></p>
+<p>所有这些网站实际上仍然使用video标签。但是，它们不只是在src属性中设置视频文件，而是使用功能更强大的Web API（Media Source Extensions）。</p>
+<h3 id="Media-Source-Extensions"><a href="#Media-Source-Extensions" class="headerlink" title="Media Source Extensions"></a>Media Source Extensions</h3><p>“Media Source Extensions”（通常简称为“ MSE”）是 W3C 的一种规范，当今大多数浏览器都在实现。它的创建是为了直接使用 HTML 和 JavaScript 实现那些复杂的媒体使用案例。</p>
+<p>这些“扩展”将 MediaSource 对象添加到 JavaScript。顾名思义，这将是视频的源，或更简单地说，这是代表我们视频数据的对象。<br><img src="/img/web-video/4.png" alt="MediaSource"></p>
+<p>如前文所述，我们仍然使用 HTML5 视频标签。也许更令人惊讶的是，我们仍然使用它的 src 属性。但这次，我们不添加视频链接，我们正在添加一个链接到 MediaSource 对象。</p>
+<p>您可能对最后一句话感到困惑。我们在这里不是在讨论URL，而是在讨论 JavaScript 语言的抽象概念，如何将其称为 HTML 中定义的视频标签上的 URL？</p>
+<p>为了允许这种用例，W3C定义了 URL.createObjectURL 静态方法。该API允许创建一个URL，该URL实际上将不引用在线可用资源，而是直接引用在客户端上创建的JavaScript对象。</p>
+<p>因此，这是将MediaSource附加到视频标签的方式：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> videoTag = <span class="built_in">document</span>.getElementById(<span class="string">"my-video"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建 MediaSource</span></span><br><span class="line"><span class="keyword">const</span> myMediaSource = <span class="keyword">new</span> MediaSource();</span><br><span class="line"><span class="keyword">const</span> url = URL.createObjectURL(myMediaSource);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将媒体源附加到 video</span></span><br><span class="line">videoTag.src = url;</span><br></pre></td></tr></table></figure></p>
+<p>就是这样！现在，您已经知道流媒体平台如何在 Web 上播放视频！</p>
+<p>…开玩笑而已。所以现在有了 MediaSource，但是我们应该怎么做呢？</p>
+<p>MSE规范不止于此。它还定义了另一个概念，即 SourceBuffers。</p>
+<h3 id="Source-Buffers"><a href="#Source-Buffers" class="headerlink" title="Source Buffers"></a>Source Buffers</h3><p>视频实际上并没有直接“推送”到 MediaSource 中进行播放，而是使用 SourceBuffers。</p>
+<p>MediaSource 包含一个或多个实例。每个都与一种内容类型相关联。</p>
+<p>为了简单起见，我们只说三种可能的类型：</p>
+<ul>
+<li>音频</li>
+<li>视频</li>
+<li>音频和视频</li>
+</ul>
+<p>实际上，“类型”是由其MIME类型定义的，其中还可能包含有关所使用的媒体编解码器的信息</p>
+<p>SourceBuffers 都链接到单个 MediaSource，并且每个都将用于直接将 JavaScript 中的视频数据添加到 HTML5 视频标签中。</p>
+<p>例如，一个常见的用例是在 MediaSource 上有两个源缓冲区：一个用于视频数据，另一个用于音频：<br><img src="/img/web-video/5.png" alt="SourceBuffers"></p>
+<p>将视频和音频分离，还可以在服务器端分别对其进行管理。这样做会带来一些优势，我们将在后面看到。它是这样工作的：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> videoTag = <span class="built_in">document</span>.getElementById(<span class="string">"my-video"</span>);</span><br><span class="line"><span class="keyword">const</span> myMediaSource = <span class="keyword">new</span> MediaSource();</span><br><span class="line"><span class="keyword">const</span> url = URL.createObjectURL(myMediaSource);</span><br><span class="line">videoTag.src = url;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 添加 source buffers</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> audioSourceBuffer = myMediaSource</span><br><span class="line">  .addSourceBuffer(<span class="string">'audio/mp4; codecs="mp4a.40.2"'</span>);</span><br><span class="line"><span class="keyword">const</span> videoSourceBuffer = myMediaSource</span><br><span class="line">  .addSourceBuffer(<span class="string">'video/mp4; codecs="avc1.64001e"'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 获取音频/视频并使用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 对于音频 SourceBuffer</span></span><br><span class="line">fetch(<span class="string">"http://server.com/audio.mp4"</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 数据必须为 ArrayBuffer</span></span><br><span class="line">  <span class="keyword">return</span> response.arrayBuffer();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">audioData</span>) </span>&#123;</span><br><span class="line">  audioSourceBuffer.appendBuffer(audioData);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与音频相同</span></span><br><span class="line">fetch(<span class="string">"http://server.com/video.mp4"</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> response.arrayBuffer();</span><br><span class="line">&#125;).then(<span class="function"><span class="keyword">function</span>(<span class="params">videoData</span>) </span>&#123;</span><br><span class="line">  videoSourceBuffer.appendBuffer(videoData);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>瞧！</p>
+<p>现在，我们可以将视频和音频数据手动添加到我们的视频标签中。</p>
+<blockquote>
+<p>现在该写音频和视频数据本身了。在上一个示例中，您可能已经注意到音频和视频数据为<a href>mp4格式</a>。<br>“ mp4”是一种视频容器格式(container format)，它包含相关的媒体数据，还包含多个元数据，例如描述其中包含的媒体的开始时间和持续时间。<br>MSE规范没有规定浏览器必须理解哪种格式。对于视频数据，两个最常见的是 mp4 和 webm 文件。到目前为止，前者是众所周知的，后者是由Google赞助的，并且基于可能更为知名的Matroska格式（“ .mkv”文件）。<br>两者在大多数浏览器中均受良好支持。</p>
+</blockquote>
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>尽管如此，这里仍然有许多问题没有答案：</p>
+<ul>
+<li>我们是否必须等待所有内容下载完毕，才能将其推送到SourceBuffer（因此可以播放）？</li>
+<li>我们如何在多种品质或语言之间切换？</li>
+<li>由于媒体尚未制作完，如何播放直播内容？</li>
+</ul>
+<p>在上一章的示例中，我们有一个文件代表整个音频，一个文件代表整个视频。这对于真正简单的用例就足够了，但是如果您想了解大多数流媒体网站提供的复杂性（切换语言，质量，播放实时内容等），则还不够。</p>
+<p>在更高级的视频播放器中实际发生的是将视频和音频数据分为多个“片段”。这些片段的大小可以不同，但​​通常代表2到10秒的内容。<br><img src="/img/web-video/6.png" alt="切片"></p>
+<p>然后，所有这些视频/音频片段将形成完整的视频/音频内容。这些数据的“切片”为我们之前的示例增加了全新的灵活性：我们不必一次推送全部内容，而是可以逐步推送多个分片。</p>
+<p>这是一个简化示例：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ... (definition of the MediaSource and its SourceBuffers)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Fetch a video or an audio segment, and returns it as an ArrayBuffer, in a</span></span><br><span class="line"><span class="comment"> * Promise.</span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; url</span></span><br><span class="line"><span class="comment"> * @returns &#123;Promise.&lt;ArrayBuffer&gt;&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fetchSegment</span>(<span class="params">url</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> fetch(url).then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> response.arrayBuffer();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fetching audio segments one after another (notice the URLs)</span></span><br><span class="line">fetchSegment(<span class="string">"http://server.com/audio/segment0.mp4"</span>)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">audioSegment0</span>) </span>&#123;</span><br><span class="line">    audioSourceBuffer.appendBuffer(audioSegment0);</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fetchSegment(<span class="string">"http://server.com/audio/segment1.mp4"</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">audioSegment1</span>) </span>&#123;</span><br><span class="line">    audioSourceBuffer.appendBuffer(audioSegment1);</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> fetchSegment(<span class="string">"http://server.com/audio/segment2.mp4"</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">audioSegment2</span>) </span>&#123;</span><br><span class="line">    audioSourceBuffer.appendBuffer(audioSegment2);</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// same thing for video segments</span></span><br><span class="line">fetchSegment(<span class="string">"http://server.com/video/segment0.mp4"</span>)</span><br><span class="line">  .then(<span class="function"><span class="keyword">function</span>(<span class="params">videoSegment0</span>) </span>&#123;</span><br><span class="line">    videoSourceBuffer.appendBuffer(videoSegment0);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure></p>
+<p>这意味着我们在服务器端也有那些多个段。在前面的示例中，我们的服务器至少包含以下文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./audio/</span><br><span class="line">  ├── segment0.mp4</span><br><span class="line">  ├── segment1.mp4</span><br><span class="line">  └── segment2.mp4</span><br><span class="line">./video/</span><br><span class="line">  └── segment0.mp4</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：音频或视频文件可能不会在服务器端真正进行切片，客户端可能会使用Range HTTP标头代替来获取切片的文件（或者，实际上，服务器可能会根据您的任何请求进行操作, 返回具体内容）。<br>但是，这些情况是实现细节。在这里，我们将始终认为服务器端具有这些分片文件。</p>
+</blockquote>
+<p>所有这些意味着, 我们不必等待整个音频或视频内容下载就可以开始播放。我们通常只需要第一部分。</p>
+<p>当然，大多数播放器并不像我们在此处那样为每个视频和音频段手动执行此逻辑，但是他们遵循相同的想法：依次下载段并将其推入源缓冲区。</p>
+<p>看到这种逻辑在现实生活中发生的一种有趣方式是，可以在Firefox / Chrome / Edge上打开网络监视器（在Linux或Windows上，键入“ Ctrl + Shift + i”，然后转到“网络”标签，在Mac上应依次为Cmd + Alt + i和“网络”），然后在您喜欢的流媒体网站中启动视频。</p>
+<p>您应该可以看到各种视频和音频片段正在快速下载：<br><img src="/img/web-video/7.png" alt="video"></p>
+<p>顺便说一句，您可能已经注意到，我们的段只是\被推送到源缓冲区中，而没有指示 WHERE, 参考时间正确的位置的地方进行添加。</p>
+<p>实际上，片段的容器确实定义了应将它们放入整个媒体的时间。这样，我们不必在JavaScript中立即进行同步。</p>
+<h3 id="自适应码流-Adaptive-Streaming"><a href="#自适应码流-Adaptive-Streaming" class="headerlink" title="自适应码流 Adaptive Streaming"></a>自适应码流 Adaptive Streaming</h3><p>许多视频播放器具有“自动播放清晰度”功能，根据用户的网络和处理能力自动选择具体视频质量。</p>
+<p>这是称为自适应流的网络播放器的核心问题。<br><img src="/img/web-video/8.png" alt="自适应"></p>
+<p>借助媒体分片的概念，也可以启用此行为。</p>
+<p>在服务器端，段实际上是用多种质量编码的。例如，我们的服务器可能存储了以下文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">./audio/</span><br><span class="line">  ├── ./128kbps/</span><br><span class="line">  |     ├── segment0.mp4</span><br><span class="line">  |     ├── segment1.mp4</span><br><span class="line">  |     └── segment2.mp4</span><br><span class="line">  └── ./320kbps/</span><br><span class="line">        ├── segment0.mp4</span><br><span class="line">        ├── segment1.mp4</span><br><span class="line">        └── segment2.mp4</span><br><span class="line">./video/</span><br><span class="line">  ├── ./240p/</span><br><span class="line">  |     ├── segment0.mp4</span><br><span class="line">  |     ├── segment1.mp4</span><br><span class="line">  |     └── segment2.mp4</span><br><span class="line">  └── ./720p/</span><br><span class="line">        ├── segment0.mp4</span><br><span class="line">        ├── segment1.mp4</span><br><span class="line">        └── segment2.mp4</span><br></pre></td></tr></table></figure></p>
+<p>然后，网络播放器将随着网络或CPU条件的变化自动选择正确的段进行下载。</p>
+<p>这完全是用JavaScript完成的。例如，对于音频片段，它可能看起来像这样：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Push audio segment in the source buffer based on its number</span></span><br><span class="line"><span class="comment"> * and quality</span></span><br><span class="line"><span class="comment"> * @param &#123;number&#125; nb</span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; language</span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; wantedQuality</span></span><br><span class="line"><span class="comment"> * @returns &#123;Promise&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pushAudioSegment</span>(<span class="params">nb, wantedQuality</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// The url begins to be a little more complex here:</span></span><br><span class="line">    <span class="keyword">const</span> url = (<span class="string">"http://my-server/audio/"</span> +</span><br><span class="line">        wantedQuality + <span class="string">"/segment"</span> + nb + <span class="string">".mp4"</span>);</span><br><span class="line">    <span class="keyword">return</span> fetch(url)</span><br><span class="line">        .then(<span class="function">(<span class="params">response</span>) =&gt;</span> response.arrayBuffer())</span><br><span class="line">        .then(<span class="function"><span class="keyword">function</span> (<span class="params">arrayBuffer</span>) </span>&#123;</span><br><span class="line">            audioSourceBuffer.appendBuffer(arrayBuffer);</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Translate an estimated bandwidth to the right audio</span></span><br><span class="line"><span class="comment"> * quality as defined on server-side.</span></span><br><span class="line"><span class="comment"> * @param &#123;number&#125; bandwidth</span></span><br><span class="line"><span class="comment"> * @returns &#123;string&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fromBandwidthToQuality</span>(<span class="params">bandwidth</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> bandwidth &gt; <span class="number">320e3</span> ? <span class="string">"320kpbs"</span> : <span class="string">"128kbps"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// first estimate the bandwidth. Most often, this is based on</span></span><br><span class="line"><span class="comment">// the time it took to download the last segments</span></span><br><span class="line"><span class="keyword">const</span> bandwidth = estimateBandwidth();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> quality = fromBandwidthToQuality(bandwidth);</span><br><span class="line"></span><br><span class="line">pushAudioSegment(<span class="number">0</span>, quality)</span><br><span class="line">    .then(<span class="function"><span class="params">()</span> =&gt;</span> pushAudioSegment(<span class="number">1</span>, quality))</span><br><span class="line">    .then(<span class="function"><span class="params">()</span> =&gt;</span> pushAudioSegment(<span class="number">2</span>, quality));</span><br></pre></td></tr></table></figure></p>
+<p>如您所见，我们将不同质量的段组合在一起没有问题，这里的 JavaScript 方面一切都是透明的。在任何情况下，容器文件都包含足够的信息，以使此过程平稳运行。</p>
+<h3 id="切换语言"><a href="#切换语言" class="headerlink" title="切换语言"></a>切换语言</h3><p>在更复杂的网络视频播放器上，例如 Netflix，Amazon Prime Video 或 MyCanal 上的视频播放器，还可以根据用户设置在多种音频语言之间进行切换。<br><img src="/img/web-video/9.png" alt="切换语言"></p>
+<p>既然您知道了为什么，对您来说，完成此功能的方法应该看起来很简单。</p>
+<p>像自适应流一样，我们在服务器端也有许多段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">./audio/ </span><br><span class="line">  ├──./esperanto/ </span><br><span class="line">  | ├──segment0.mp4 </span><br><span class="line">  | ├──segment1.mp4 </span><br><span class="line">  | └──segment2.mp4 </span><br><span class="line">  └── ./french/ </span><br><span class="line">        ├──segment0.mp4 </span><br><span class="line">        ├──segment1.mp4 </span><br><span class="line">        └──segment2.mp4 </span><br><span class="line">./video/ </span><br><span class="line">  ├──segment0.mp4 </span><br><span class="line">  ├──segment1.mp4 </span><br><span class="line">  └── segment2.mp4</span><br></pre></td></tr></table></figure></p>
+<p>这次，视频播放器必须不根据客户端的功能而是根据用户的喜好在语言之间进行切换。</p>
+<p>对于音频段，这是客户端上的代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Push audio segment in the source buffer based on its number and language.</span></span><br><span class="line"><span class="comment"> * @param &#123;number&#125; nb</span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; language</span></span><br><span class="line"><span class="comment"> * @returns &#123;Promise&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pushAudioSegment</span>(<span class="params">nb, language</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// construct dynamically the URL of the segment</span></span><br><span class="line">    <span class="comment">// and push it to the SourceBuffer</span></span><br><span class="line">    <span class="keyword">const</span> url = (<span class="string">"http://my-server/audio/"</span> +</span><br><span class="line">        language + <span class="string">"/segment"</span> + nb + <span class="string">".mp4"</span>);</span><br><span class="line">    <span class="keyword">return</span> fetch(url)</span><br><span class="line">        .then(<span class="function">(<span class="params">response</span>) =&gt;</span> response.arrayBuffer())</span><br><span class="line">        .then(<span class="function"><span class="keyword">function</span> (<span class="params">arrayBuffer</span>) </span>&#123;</span><br><span class="line">            audioSourceBuffer.appendBuffer(arrayBuffer);</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// recuperate in some way the user's language</span></span><br><span class="line"><span class="keyword">const</span> language = getUsersLanguage();</span><br><span class="line"></span><br><span class="line">pushAudioSegment(<span class="number">0</span>, language)</span><br><span class="line">    .then(<span class="function"><span class="params">()</span> =&gt;</span> pushAudioSegment(<span class="number">1</span>, language))</span><br><span class="line">    .then(<span class="function"><span class="params">()</span> =&gt;</span> pushAudioSegment(<span class="number">2</span>, language));</span><br></pre></td></tr></table></figure></p>
+<p>您可能还希望在切换语言时“清除”以前的SourceBuffer的内容，以避免混合多种语言的音频内容。</p>
+<p>这可以通过SourceBuffer.prototype.remove方法完成，该方法以秒为单位的开始和结束时间：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">audioSourceBuffer.remove(<span class="number">0</span>, <span class="number">40</span>);</span><br></pre></td></tr></table></figure></p>
+<p>当然，也可以将自适应流和多种语言结合在一起。我们可以这样组织服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">./audio/ </span><br><span class="line">  ├──./esperanto/ </span><br><span class="line">  | ├──./128kbps/ </span><br><span class="line">  | | ├──segment0.mp4 </span><br><span class="line">  | | ├──segment1.mp4 </span><br><span class="line">  | | └──segment2.mp4 </span><br><span class="line">  | └── ../320kbps/ </span><br><span class="line">  | ├──segment0.mp4 </span><br><span class="line">  | ├──segment1.mp4 </span><br><span class="line">  | └──segment2.mp4└──./ </span><br><span class="line">  french/ </span><br><span class="line">        ├──./128kbps/ </span><br><span class="line">        | ├──segment0.mp4 </span><br><span class="line">        | ├──segment1.mp4 </span><br><span class="line">        | └──segment2.mp4 </span><br><span class="line">        └── ./320kbps/ </span><br><span class="line">              ├──segment0.mp4 </span><br><span class="line">              ├──segment1.mp4 </span><br><span class="line">              └──segment2.mp4 </span><br><span class="line">./video/ </span><br><span class="line">  ├──./240p/ </span><br><span class="line">  | ├──segment0.mp4</span><br><span class="line">  | ├──segment1.mp4 </span><br><span class="line">  | └──segment2.mp4 </span><br><span class="line">  └── ./720p/ </span><br><span class="line">        ├──segment0.mp4 </span><br><span class="line">        ├──segment1.mp4 </span><br><span class="line">        └──segment2.mp4</span><br></pre></td></tr></table></figure></p>
+<p>而我们的客户端将不得不同时管理语言和网络条件：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Push audio segment in the source buffer based on its number, language and quality</span></span><br><span class="line"><span class="comment"> * @param &#123;number&#125; nb</span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; language</span></span><br><span class="line"><span class="comment"> * @param &#123;string&#125; wantedQuality</span></span><br><span class="line"><span class="comment"> * @returns &#123;Promise&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pushAudioSegment</span>(<span class="params">nb, language, wantedQuality</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// The url begins to be a little more complex here:</span></span><br><span class="line">    <span class="keyword">const</span> url = (<span class="string">"http://my-server/audio/"</span> +</span><br><span class="line">        language + <span class="string">"/"</span> + wantedQuality + <span class="string">"/segment"</span> + nb + <span class="string">".mp4"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fetch(url)</span><br><span class="line">        .then(<span class="function">(<span class="params">response</span>) =&gt;</span> response.arrayBuffer())</span><br><span class="line">        .then(<span class="function"><span class="keyword">function</span> (<span class="params">arrayBuffer</span>) </span>&#123;</span><br><span class="line">            audioSourceBuffer.appendBuffer(arrayBuffer);</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> bandwidth = estimateBandwidth();</span><br><span class="line"><span class="keyword">const</span> quality = fromBandwidthToQuality(bandwidth);</span><br><span class="line"><span class="keyword">const</span> language = getUsersLanguage();</span><br><span class="line">pushAudioSegment(<span class="number">0</span>, language, quality)</span><br><span class="line">    .then(<span class="function"><span class="params">()</span> =&gt;</span> pushAudioSegment(<span class="number">1</span>, language, quality))</span><br><span class="line">    .then(<span class="function"><span class="params">()</span> =&gt;</span> pushAudioSegment(<span class="number">2</span>, language, quality));</span><br></pre></td></tr></table></figure></p>
+<p>如您所见，现在有很多方法可以定义相同的内容。</p>
+<p>这揭示了分开的视频和音频段相对于整个文件的另一个优点。对于后者，我们将不得不在服务器端结合各种可能性，这可能会占用更多空间：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">segment0_video_240p_audio_esperanto_128kbps.mp4</span><br><span class="line">segment0_video_240p_audio_esperanto_320kbps.mp4</span><br><span class="line">segment0_video_240p_audio_french_128kbps.mp4</span><br><span class="line">segment0_video_240p_audio_french_320kbps.mp4</span><br><span class="line">segment0_video_720p_audio_esperanto_128kbps.mp4</span><br><span class="line">segment0_video_720p_audio_esperanto_320kbps.mp4</span><br><span class="line">segment0_video_720p_audio_french_128kbps.mp4</span><br><span class="line">segment0_video_720p_audio_french_320kbps.mp4</span><br><span class="line">segment1_video_240p_audio_esperanto_128kbps.mp4</span><br><span class="line">segment1_video_240p_audio_esperanto_320kbps.mp4</span><br><span class="line">segment1_video_240p_audio_french_128kbps.mp4</span><br><span class="line">segment1_video_240p_audio_french_320kbps.mp4</span><br><span class="line">segment1_video_720p_audio_esperanto_128kbps.mp4</span><br><span class="line">segment1_video_720p_audio_esperanto_320kbps.mp4</span><br><span class="line">segment1_video_720p_audio_french_128kbps.mp4</span><br><span class="line">segment1_video_720p_audio_french_320kbps.mp4</span><br><span class="line">segment2_video_240p_audio_esperanto_128kbps.mp4</span><br><span class="line">segment2_video_240p_audio_esperanto_320kbps.mp4</span><br><span class="line">segment2_video_240p_audio_french_128kbps.mp4</span><br><span class="line">segment2_video_240p_audio_french_320kbps.mp4</span><br><span class="line">segment2_video_720p_audio_esperanto_128kbps.mp4</span><br><span class="line">segment2_video_720p_audio_esperanto_320kbps.mp4</span><br><span class="line">segment2_video_720p_audio_french_128kbps.mp4</span><br><span class="line">segment2_video_720p_audio_french_320kbps.mp4</span><br><span class="line">Here we have more files, with a lot of redundancy (the ...</span><br></pre></td></tr></table></figure></p>
+<p>这里我们有更多的文件，并且有很多冗余（多个文件中包含完全相同的视频数据）。</p>
+<p>如您所见，在服务器端效率很低。同时这在客户端也很不利，因为切换音频语言可能会导致您也重新下载视频（带宽成本很高）。</p>
+<h3 id="直播"><a href="#直播" class="headerlink" title="直播"></a>直播</h3><p>我们还没有谈论直播。</p>
+<p>网络上的直播流媒体（twitch.tv，YouTube实时流媒体…）变得非常普遍，并且由于我们的视频和音频文件已分段，因此再次大大简化了这一过程。<br><img src="/img/web-video/10.png" alt="直播"></p>
+<p>为了说明它基本上以最简单的方式工作，让我们考虑一个4秒钟前才开始直播传输的 YouTube 频道。</p>
+<p>如果我们的片段长2秒，那么我们应该已经在YouTube的服务器上生成了两个音频片段和两个视频片段：</p>
+<ul>
+<li>两个代表从0秒到2秒的内容（1个音频+ 1个视频）</li>
+<li>两个代表2秒到4秒（同样是1个音频+ 1个视频）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">./audio/ </span><br><span class="line">  ├──segment0s.mp4 </span><br><span class="line">  └── segment2s.mp4 </span><br><span class="line">./video/ </span><br><span class="line">  ├──segment0s.mp4 </span><br><span class="line">  └── segment2s.mp4</span><br></pre></td></tr></table></figure>
+<p>在5秒钟时，我们还没有时间生成下一个片段，因此，到目前为止，服务器具有完全相同的可用内容。</p>
+<p>6秒钟后，可以生成一个新的段，我们现在有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">./audio/ </span><br><span class="line">  ├──segment0s.mp4 </span><br><span class="line">  ├──segment2s.mp4 </span><br><span class="line">  └── segment4s.mp4 </span><br><span class="line">./video/ </span><br><span class="line">  ├──segment0s.mp4 </span><br><span class="line">  ├──segment2s.mp4 </span><br><span class="line">  └── segment4s.mp4</span><br></pre></td></tr></table></figure></p>
+<p>在服务器端，这是很合乎逻辑的，实时内容实际上并不是真正连续的，它们像非实时内容一样进行分段，但是随着时间的流逝，分段会逐渐出现。</p>
+<p>现在，我们如何从JS中知道服务器上某个时间点可用的段？</p>
+<p>我们可能只在客户端上使用一个时钟，然后随着时间的流逝推断出新的段在服务器端变得可用。</p>
+<p>我们将遵循“ segmentX.mp4 ”的命名方案，并且每次都将从上次下载的“ X”开始递增（“ segment0.mp4”，然后是2秒后的“ Segment1.mp4”等）。</p>
+<p>但是，在许多情况下，这可能变得太不精确：媒体段的持续时间可能可变，服务器在生成媒体段时可能会有延迟，它可能希望删除太旧以至于无法节省空间的段…</p>
+<p>作为客户端，您想请求最新的分片，只要它们可用，同时仍避免在尚未生成细分市场时过早请求它们（这将导致404 HTTP错误）。</p>
+<p>通常通过使用传输协议（有时也称为流媒体协议）解决此问题。</p>
+<h3 id="传输协议"><a href="#传输协议" class="headerlink" title="传输协议"></a>传输协议</h3><p>对于本文，深入解释不同的传输协议可能太冗长。我们只说其中大多数具有相同的核心概念：Manifest。</p>
+<p>Manifest是描述哪些段可用的服务器上的文件。<br><img src="/img/web-video/11.png" alt="Manifest"></p>
+<p>借助它，您可以Manifest中了解到的大多数信息：</p>
+<ul>
+<li>内容在服务器上可用的语言以及在服务器上的可用位置（例如，“在哪个URL”）</li>
+<li>提供不同的音频和视频质量</li>
+<li>当然，在直播流媒体的情况下，哪些细分可用</li>
+</ul>
+<p>Web中使用的最常见的传输协议是：</p>
+<h4 id="DASH"><a href="#DASH" class="headerlink" title="DASH"></a>DASH</h4><p>YouTube，Netflix或 Amazon Prime Video（及许多其他公司）使用的 DASH。DASH 的清单称为“Media Presentation Description”（或MPD），是其基本XML。</p>
+<p>DASH规范具有极大的灵活性，它允许MPD支持大多数用例（音频描述，父控制）并且与编解码器无关。</p>
+<h4 id="HLS"><a href="#HLS" class="headerlink" title="HLS"></a>HLS</h4><p>由Apple开发，并由DailyMotion，Twitch.tv和许多其他公司使用。HLS清单称为播放列表，格式为m3u8（它们是m3u播放列表文件，以UTF-8编码）。</p>
+<h4 id="Smooth-Streaming"><a href="#Smooth-Streaming" class="headerlink" title="Smooth Streaming"></a>Smooth Streaming</h4><p>由Microsoft开发，被多个Microsoft产品和MyCanal使用。在“平滑流传输”中，清单称为……Manifests，并且基于XML。</p>
+<h3 id="当前-Web-播放现状"><a href="#当前-Web-播放现状" class="headerlink" title="当前 Web 播放现状"></a>当前 Web 播放现状</h3><p>如您所见，网络视频背后的核心概念在于在 JavaScript 中动态添加的媒体分片。</p>
+<p>这种行为很快变得非常复杂，因为视频播放器必须支持许多功能：</p>
+<ul>
+<li>它必须下载并解析某种清单文件</li>
+<li>它必须猜测当前的网络状况</li>
+<li>它需要注册用户首选项（例如，首选语言）</li>
+<li>它必须至少根据前两个要点知道要下载哪个段</li>
+<li>它必须管理一个段管道以在正确的时间顺序下载正确的段（同时下载每个段的效率很低：您需要最早的一个比下一个要早）</li>
+<li>它也必须处理字幕，通常完全由 JS 管理</li>
+<li>一些视频播放器还管理缩略图轨道，将鼠标悬停在进度条上时通常可以看到</li>
+<li>许多服务也需要 DRM 管理</li>
+</ul>
+<p>还有很多其他事情。复杂的，与Web兼容的视频播放器的核心仍然都是基于 MediaSource 和 SourceBuffers。<br><img src="/img/web-video/12.png" alt="第三方库"></p>
+<p>这就是为什么这些任务通常由第三方库执行的原因。</p>
+<p>通常，这些库甚至都没有定义用户界面。它们主要提供丰富的API，以清单和各种首选项作为参数，并在正确的时间在正确的源缓冲区中添加正确的缓冲区。</p>
+<p>当设计媒体网站和 Web 应用程序时，这将实现更大的模块化和灵活性，而本质上讲，它们将是复杂的前端。</p>
+<h3 id="开源的播放器"><a href="#开源的播放器" class="headerlink" title="开源的播放器"></a>开源的播放器</h3><p>今天有许多网络视频播放器可以完成本文所解释的工作。以下是各种开源示例：</p>
+<ul>
+<li><a href="https://github.com/canalplus/rx-player" target="_blank" rel="noopener">rx-player</a>：可配置的DASH和 Smooth Streaming 播放器。用 TypeScript 编写—我是开发人员之一。</li>
+<li><a href="https://github.com/Dash-Industry-Forum/dash.js/" target="_blank" rel="noopener">dash.js</a>：播放DASH内容，支持多种DASH功能。由DASH行业论坛（DASH Industry Forum）撰写，旨在促DASH传输协议的互操作性指南。</li>
+<li><a href="https://github.com/video-dev/hls.js/" target="_blank" rel="noopener">hls.js</a>：久负盛名的 HLS播放器。在生产中由多个知名品牌使用，例如Dailymotion，Canal +，Adult Swim，Twitter，VK等。</li>
+<li><a href="https://github.com/google/shaka-player" target="_blank" rel="noopener">shaka-player</a>：DASH和HLS播放器。由Google维护。</li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
