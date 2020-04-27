@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="nodeType">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">nodeType</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/me">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2020-04-27</span>
+            <span class="time">23:33:54</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/骚操作/">骚操作</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/web/">#web</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>最近在抽空研究 <code>React</code> 源码, 在 <code>ReactDOM.render</code> 的调用链中看到一段有趣的代码:</p>
+<a id="more"></a>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// React v16.13.1</span></span><br><span class="line"><span class="comment">// 出自 ReactDOMLegacy.js 文件</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getReactRootElementInContainer</span>(<span class="params">container: any</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!container) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// DOCUMENT_NODE =&gt; 9</span></span><br><span class="line">  <span class="keyword">if</span> (container.nodeType === DOCUMENT_NODE) &#123;</span><br><span class="line">    <span class="keyword">return</span> container.documentElement;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> container.firstChild;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>小朋友, 你是不是有很多疑问🤔️… <code>nodeType</code> 是啥, <code>nodeType === 9</code> 又是什么意思？ </p>
+<h2 id="HTML-DOM-Element-对象"><a href="#HTML-DOM-Element-对象" class="headerlink" title="HTML DOM Element 对象"></a>HTML DOM Element 对象</h2><p>在介绍 <code>nodeType</code> 之前, 不得不说一下包含它的父级对象: <code>HTML DOM Element</code>, 以及一系列的相关概念。</p>
+<h3 id="HTML-DOM-节点"><a href="#HTML-DOM-节点" class="headerlink" title="HTML DOM 节点"></a>HTML DOM 节点</h3><p>在 <code>HTML DOM</code> （文档对象模型）中，每个部分都是节点：</p>
+<ul>
+<li>文档本身是文档节点</li>
+<li>所有 <code>HTML</code> 元素是元素节点</li>
+<li>所有 <code>HTML</code> 属性是属性节点</li>
+<li><code>HTML</code> 元素内的文本是文本节点</li>
+<li>注释是注释节点</li>
+</ul>
+<h3 id="Element-对象"><a href="#Element-对象" class="headerlink" title="Element 对象"></a>Element 对象</h3><p>在 <code>HTML DOM</code> 中，<code>Element</code> 对象表示 <code>HTML</code> 元素。<br><code>Element</code> 对象可以拥有类型为元素节点、文本节点、注释节点的子节点。<br><code>NodeList</code> 对象表示节点列表，比如 <code>HTML</code> 元素的子节点集合。<br>元素也可以拥有属性。属性是属性节点。</p>
+<blockquote>
+<p>如果看完这一部分简介还是不太了解, 可以继续看这里:<br><a href="https://baike.baidu.com/item/HTML%20DOM/4585925" target="_blank" rel="noopener">HTML DOM</a></p>
+</blockquote>
+<p>这篇讲讲节点(<code>Node</code>)类型常会被忽视的属性：<strong>nodeType</strong>。</p>
+<h2 id="nodeType"><a href="#nodeType" class="headerlink" title="nodeType"></a>nodeType</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p><code>nodeType</code> 属性返回以数字值返回指定节点的节点类型。</p>
+<blockquote>
+<p>是的, 你没有看错! 它的定义就只有一句话!</p>
+</blockquote>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node.nodeType</span><br></pre></td></tr></table></figure>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>文档、元素、属性以及 <code>HTML</code> 或 <code>XML</code> 文档的其他方面拥有不同的节点类型。<br>存在 <strong>12</strong> 种不同的节点类型，其中可能会有不同节点类型的子节点：</p>
+<table>
+<thead>
+<tr>
+<th>常量名</th>
+<th>常量值</th>
+<th>节点类型</th>
+<th>描述</th>
+<th>子节点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Node.ELEMENT_NODE</code></td>
+<td>1</td>
+<td>Element</td>
+<td>代表元素</td>
+<td>Element, Text, Comment, ProcessingInstruction, CDATASection, EntityReference</td>
+</tr>
+<tr>
+<td><code>Node.ATTRIBUTE_NODE</code></td>
+<td>2</td>
+<td>Attr</td>
+<td>代表属性</td>
+<td>Text, EntityReference</td>
+</tr>
+<tr>
+<td><code>Node.TEXT_NODE</code></td>
+<td>3</td>
+<td>Text</td>
+<td>代表元素或属性中的文本内容</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Node.CDATA_SECTION_NODE</code></td>
+<td>4</td>
+<td>CDATASection</td>
+<td>代表文档中的 <code>CDATA</code> 部分(不会由解析器解析的文本)</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Node.ENTITY_REFERENCE_NODE</code></td>
+<td>5</td>
+<td>EntityReference</td>
+<td>代表实体引用</td>
+<td>Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference</td>
+</tr>
+<tr>
+<td><code>Node.ENTITY_NODE</code></td>
+<td>6</td>
+<td>Entity</td>
+<td>代表实体</td>
+<td>Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference</td>
+</tr>
+<tr>
+<td><code>Node.PROCESSING_INSTRUCTION_NODE</code></td>
+<td>7</td>
+<td>ProcessingInstruction</td>
+<td>代表处理指令</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Node.COMMENT_NODE</code></td>
+<td>8</td>
+<td>Comment</td>
+<td>代表注释</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Node.DOCUMENT_NODE</code></td>
+<td>9</td>
+<td>Document</td>
+<td>代表整个文档(<code>DOM</code> 树的根节点)</td>
+<td>Element, ProcessingInstruction, Comment, DocumentType</td>
+</tr>
+<tr>
+<td><code>Node.DOCUMENT_TYPE_NODE</code></td>
+<td>10</td>
+<td>DocumentType</td>
+<td>向为文档定义的实体提供接口</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Node.DOCUMENT_FRAGMENT_NODE</code></td>
+<td>11</td>
+<td>DocumentFragment</td>
+<td>代表轻量级的 Document 对象，能够容纳文档的某个部分</td>
+<td>Element, ProcessingInstruction, Comment, Text, CDATASection, EntityReference</td>
+</tr>
+<tr>
+<td><code>Node.NOTATION_NODE</code></td>
+<td>12</td>
+<td>Notation</td>
+<td>代表 <code>DTD</code> 中声明的符号</td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>其中<strong>常用</strong>的有 <code>1</code>, <code>2</code>, <code>3</code>, <code>8</code>, <code>9</code> 这五个属性。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">'div'</span>);</span><br><span class="line">div.id = <span class="string">'root'</span>;</span><br><span class="line">div.innerText = <span class="string">'我是一个 Element 节点'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> attr = div.getAttributeNode(<span class="string">'id'</span>);</span><br><span class="line"><span class="keyword">const</span> text = div.firstChild;</span><br><span class="line"></span><br><span class="line">div.nodeType; <span class="comment">// ==&gt; 1</span></span><br><span class="line">attr.nodeType; <span class="comment">// ==&gt; 2</span></span><br><span class="line">text.nodeType; <span class="comment">// ==&gt; 3</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>想要了解更多有关节点的信息可以继续学习 <code>nodeName</code>, <code>nodeValue</code>.</p>
+</blockquote>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
