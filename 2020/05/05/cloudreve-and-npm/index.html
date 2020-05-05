@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <!-- Html Head Tag-->
+  <head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content>
+  <meta name="author" content="Badmaster">
+  <!-- Open Graph Data -->
+  <meta property="og:title" content="记一次使用 Cloudreve 编译问题">
+  <meta property="og:description" content="Badmaster/blog/博客/个人博客">
+  <meta property="og:site_name" content="坏时光">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="http://yoursite.com">
+  
+    <link rel="alternate" href="/atom.xml" title="坏时光" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <!-- Site Title -->
+  <title>坏时光</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  
+  <link rel="stylesheet" href="/css/style.light.css">
+
+  <!-- Google Analytics -->
+  
+
+</head>
+
+  <body>
+    <!-- Page Header -->
+
+
+<header class="site-header header-background" style="background-image: url(/img/timg.jpg)">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-title with-background-image">
+          <p class="title">记一次使用 Cloudreve 编译问题</p>
+          <p class="subtitle"></p>
+        </div>
+        <div class="site-menu with-background-image">
+          <ul>
+            
+              <li>
+                <a href="/">
+                  
+                  首页
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  
+                  归档
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="https://github.com/BadmasterY">
+                  
+                  Github
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="mailto:854007673@qq.com">
+                  
+                  Email
+                  
+                </a>
+              </li>
+            
+              <li>
+                <a href="/me">
+                  
+                  关于
+                  
+                </a>
+              </li>
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<article>
+  <div class="container typo">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-info text-muted">
+          
+            <!-- Author -->
+            <span class="author info">By Badmaster</span>
+          
+          <!-- Date -->
+          <span class="date-time info">On
+            <span class="date">2020-05-05</span>
+            <span class="time">23:09:16</span>
+          </span>
+          
+          <!--  Categories  -->
+            <span class="categories info">Under 
+
+<a href="/categories/瞎鼓捣/">瞎鼓捣</a>
+</span>
+          
+        </div>
+        <!-- Tags -->
+        
+          <div class="post-tags text-muted">
+            Tags: 
+
+<a class="tag" href="/tags/web/">#web</a> <a class="tag" href="/tags/npm/">#npm</a> <a class="tag" href="/tags/cloudreve/">#cloudreve</a>
+
+
+          </div>
+        
+        <!-- Post Main Content -->
+        <div class="post-content">
+          <p>由于公司需求, 在公网搭建一个公司自己的网盘, 而且网上有许多已经写好的开源项目(<code>其实就是懒</code>), 最后选来选取决定使用 <code>cloudreve v3.0.0</code> 进行折腾。</p>
+<p>当然, 再懒也需要满足需求, 只能使用源码进行修改、编译。</p>
+<a id="more"></a>
+<p>首次构建会遇到这样一个问题:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yarn build</span><br><span class="line">./node_modules/react-dplayer/lib/DPlayer.js</span><br><span class="line">Cannot find module: 'dplayer/dist/DPlayer.min.css'. Make sure this package is installed.</span><br><span class="line"></span><br><span class="line">You can install this package by running: yarn add dplayer/dist/DPlayer.min.css.</span><br></pre></td></tr></table></figure></p>
+<p>告诉你找不到 <code>dplayer/dist/DPlayer.min.css</code> 文件。当然, 这个好办, 根据引导进行安装就 <code>ok</code> 了:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yarn add dplayer/dist/DPlayer.min.css</span><br><span class="line">error An unexpected error occurred: "http://registry.npm.taobao.org/dplayer%2fdist/DPlayer.min.css: Request \"http://registry.npm.taobao.org/dplayer%2fdist/DPlayer.min.css\" returned a 405".</span><br></pre></td></tr></table></figure></p>
+<p>哦吼, 神奇的 <code>405</code> 来了! WTF?!</p>
+<p>这里是使用的淘宝镜像, 切换回原始地址依旧报错。</p>
+<p>然后本着契而不舍的精神, 看了一下 <code>dplayer</code> 的更新, 发现在 <code>1.25.1</code>(最近一次更新) 将 <code>css</code> 内置了, 也就是说, <code>react-dplayer</code> 的文件内部, 引用 <code>css</code> 样式代码 <code>require(&#39;dplayer/dist/DPlayer.min.css&#39;);</code> 在最新版本失效。</p>
+<p><del>但是查看 <code>yarn.lock</code> 文件发现引用的确实是 <code>dplayer v1.25.0</code>…</del><br><strong>万恶之源 <code>dplayer &quot;^1.25.0&quot;</code>。</strong></p>
+<p>需要指定 <code>dplayer</code> 安装版本, 添加 <code>css</code> 样式解决:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add dplayer@1.25.0/dist/DPlayer.min.css</span><br></pre></td></tr></table></figure></p>
+<p>由这个问题让我想起来, 上上周末，一个 <code>NPM</code> 小项目的更新给整个 <code>NPM</code> 生态系统制造了一场混乱，影响到了数百万 <code>JS</code> 项目。这个库就是 <code>is-promise</code> ，仅包含了两行代码，其功能是让开发者测试一个 <code>JS</code> 对象是否是 <code>Promise</code>，其它 <code>JS</code> 项目可通过一行代码调用使用该库。</p>
+<p>尽管这个库只有两行代码，但它却是最流行的 <code>NPM</code> 包之一，被超过 <code>340</code> 万个项目使用。</p>
+<p>上上周末 <code>is-promised</code> 释出了一个更新，结果由于它不符合正确的 <code>ES</code> 模块标准，导致使用该库的其它项目在构建时出错。问题并没有导致现有 <code>JS</code> 项目崩溃，而主要无法编译新版本。</p>
+<p>许多知名的 <code>JS</code> 项目都受到影响，其中包括 <code>Facebook</code> 的 <code>Create React App</code>，<code>Google</code> 的 <code>Angular.js</code> 框架，<code>Google</code> 的 <code>Firebasse-tools</code>，亚马逊的 <code>AWS Serverless CLI</code>，<code>Nuxt.js</code> 等等。</p>
+<p><code>NPM</code> 生态系统的依赖问题，早在 <code>2016</code> 年就引发过类似事件，有一个 <code>NPM</code> 库开发者撤回了他的代码（代码并不多，也就几行），导致诸多重量级应用（比如 <code>React</code> 和 <code>Babel</code>）都出问题了。</p>
+<p><strong>曾有人为此发出疑问：难道程序员连代码都不会写了吗？</strong>举例来说，一个叫 <code>isArray</code> 的软件包一天的下载量有 <code>88</code> 万，2016年2月有 <code>1800</code> 万次下载量，它本身就只有一行代码。</p>
+<p><code>NPM</code> 生态系统中的许多开发者，看起来宁愿复用其他人写好的代码而不是自己写。这种做法存在严重的安全隐患，因为一个被广泛使用的软件包存在 <code>bug</code>，你的代码也会受到影响，而你却无法自己去修正。</p>
+<p><img src="../../public/img/cloudreve-and-npm/npm.png" alt="npm"></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+    <!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <p class="copyright text-muted">
+          Personal blog by <a target="_blank" href="https://github.com/BadmasterY">Badmaster</a>
+        </p><p class="copyright text-muted">
+          Powered By <a target="_blank" href="https://hexo.io/">Hexo.</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- After Footer Scripts -->
+<script src="/js/highlight.pack.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var codeBlocks = Array.prototype.slice.call(document.getElementsByTagName('pre'))
+    codeBlocks.forEach(function(block, index) {
+      hljs.highlightBlock(block);
+    });
+  });
+</script>
+
+  </body>
+</html>
+
